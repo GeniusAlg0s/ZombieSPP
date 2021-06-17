@@ -25,13 +25,13 @@ public class Castle {
         shop.addConnectedRooms(castleHall);
 
         //add Challenge to room
-        eastWing.setChallenge(new Puzzle("East-Wing-Puzzle", "What is (2+2) X (2-2)?", "0"));
+        eastWing.setChallenge(new Puzzle("East-Wing-Puzzle", "I shave every day, but my beard stays the same. What am I?", "Barber"));
         eastWing.getChallenge().getInventory().addItems(new Item("Knife", "This is a knife", 25.0),new Item("Sword", "The Sword of Light", 100));
-        westWing.setChallenge(new Puzzle("West-Wing-Puzzle", "What is (2+2) X (2-2)?", "0"));
+        westWing.setChallenge(new Puzzle("West-Wing-Puzzle", "The person who makes it has no need of it; the person who buys it has no use for it. The person who uses it can neither see nor feel it. What is it?", "Coffin"));
         westWing.getChallenge().getInventory().addItems(new Item("Spoon", "This is a spoon", 25.0));
-        castleHall.setChallenge(new Puzzle("Castle-Hall-Puzzle", "What is (2+2) X (2-2)?", "0"));
+        castleHall.setChallenge(new Puzzle("Castle-Hall-Puzzle", "What has many teeth, but cannot bite?", "Comb"));
         castleHall.getChallenge().getInventory().addItems(new Item("Fork", "This is a fork", 5.0));
-        drawBridge.setChallenge(new Puzzle("Draw-Bridge-Puzzle", "What is (2+2) X (2-2)?", "0"));
+        drawBridge.setChallenge(new Puzzle("Draw-Bridge-Puzzle", "What can travel all around the world without leaving its corner?", "Stamp"));
         drawBridge.getChallenge().getInventory().addItems(new Item("Vase", "This is a vase", 5.0));
         combatHall.setChallenge(new Combat("Life or Death Battle"));
         combatHall.setExit(true);
