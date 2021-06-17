@@ -15,7 +15,6 @@ public class Parser {
     public static List<String> parse(String input) {
         List<String> inputWords = Arrays.asList(input.toLowerCase().split(" "));
         List<String> result = ALLOWED_ACTIONS.contains(inputWords.get(0)) ? reduceInputWordsToList(inputWords) : null;
-        System.out.println(result);
         return result;
     }
 
