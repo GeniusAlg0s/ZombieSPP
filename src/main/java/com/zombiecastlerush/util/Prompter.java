@@ -153,7 +153,7 @@ public class Prompter {
                 if (combatChoice.equals("fight")) {
                     Combat.combat(player, enemy);
                 } else if (combatChoice.equals("run")) {
-                    System.out.println("don't be a coward");
+                    System.out.println("don't be a coward you cannot escape");
                     Combat.enemyAttack(player, enemy);
                 }
             }
