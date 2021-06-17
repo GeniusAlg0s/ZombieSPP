@@ -149,11 +149,11 @@ public class Prompter {
             Combat.combat(player, enemy);
             while (player.getHealth() > 0 && enemy.getHealth() > 0) {
                 String msg = "what would you like to do, \"fight\" or \"run\"?";
-                String combatChoice = Prompter.getUserInput(msg);
+                String combatChoice = Prompter.getUserInput(msg).toLowerCase();
                 if (combatChoice.equals("fight")) {
                     Combat.combat(player, enemy);
                 } else if (combatChoice.equals("run")) {
-                    System.out.println("don't be a coward");
+                    System.out.println("Don't be a coward you cannot escape");
                     Combat.enemyAttack(player, enemy);
                 }
             }
