@@ -195,8 +195,10 @@ public class Prompter {
             Challenge currRoomChallenge = currentRoom.getChallenge();
             if (currRoomChallenge instanceof Puzzle) {
                 System.out.println("The box pulses with power. You know not how, but it has a riddle for you, and it will not let you leave until you have solved it. Perhaps you should " + Parser.GREEN + "attempt puzzle" + Parser.ANSI_RESET + ".");
-            } else if (currRoomChallenge instanceof Combat) {
+            } else if (currRoomChallenge instanceof Combat && currentRoom.getName().equals("Combat-Hall")) {
                 System.out.println("A rotting hand reaches and knocks the lid to the ground with a resounding crash. A monster rises from the coffin and fixes its lifeless, pitiless gaze upon you. It's time to " + Parser.GREEN + "fight" + Parser.ANSI_RESET + ".");
+            } else if (currRoomChallenge instanceof Combat && currentRoom.getName().equals("Grave-Yard")) {
+                System.out.println("The ghost goes underground. A posed corps digs up from underground and fixes its lifeless, pitiless gaze upon you. It's time to " + Parser.GREEN + "fight" + Parser.ANSI_RESET + ".");
             }
         } else {
 
@@ -237,6 +239,8 @@ public class Prompter {
             actionApplicable.add(Parser.GREEN + "drop" + Parser.ANSI_RESET);
         }
         if (room.getName().equalsIgnoreCase("Combat-Hall") && !room.getChallenge().isCleared())
+            actionApplicable.add(Parser.GREEN + "fight" + Parser.ANSI_RESET);
+        if (room.getName().equalsIgnoreCase("Grave-Yard") && !room.getChallenge().isCleared())
             actionApplicable.add(Parser.GREEN + "fight" + Parser.ANSI_RESET);
         return actionApplicable;
     }
