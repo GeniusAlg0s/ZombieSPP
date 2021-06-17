@@ -117,6 +117,8 @@ public class Prompter {
                     break;
             }
         } else {
+            //sout invalid input
+            System.out.println("invalid input");
             Game.getInstance().showInstructions();
         }
     }
