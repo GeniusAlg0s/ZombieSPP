@@ -19,6 +19,9 @@ public class Combat extends Challenge {
         for (Item item : items) {
             if (item.getName().equals("Sword")){
                 playerDamageToEnemy += 20;
+            if(item.getName().equals("Wand")) {
+                playerDamageToEnemy +=100;
+            }
                 System.out.println("You draw your " + item.getDescription());
             }
         }
