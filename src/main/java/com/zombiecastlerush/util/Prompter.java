@@ -32,8 +32,8 @@ public class Prompter {
 
         if (userInputList != null) {
             String action = userInputList.get(0);
-
             switch (userInputList.size()) {
+
                 case 2:
                     switch (action) {
                         case "go":
@@ -150,8 +150,23 @@ public class Prompter {
         if (!cleared) {
             Combat.combat(player, enemy);
             while (player.getHealth() > 0 && enemy.getHealth() > 0) {
+                //creat temporary list to check for fight synonyms while in combat
+                List<String> fightTemp= new ArrayList<>();
+                List<String> runTemp= new ArrayList<>();
+                fightTemp.addAll(Parser.FIGHT_LIST);
+                runTemp.addAll(Parser.RUN_LIST);
+
                 String msg = "what would you like to do, \"fight\" or \"run\"?";
                 String combatChoice = Prompter.getUserInput(msg).toLowerCase();
+
+                //checks if combat choice is synonym for fight or run
+                if(fightTemp.contains(combatChoice)){
+                    combatChoice = "fight";
+                }else if(runTemp.contains(combatChoice)){
+                    combatChoice = "run";
+                } else {
+                    combatChoice = combatChoice;
+                }
                 if (combatChoice.equals("fight")) {
                     Combat.combat(player, enemy);
                 } else if (combatChoice.equals("run")) {
