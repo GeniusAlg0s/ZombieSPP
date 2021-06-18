@@ -12,7 +12,7 @@ public class Parser {
 
     final static List<String> ALLOWED_ACTIONS = Arrays.asList("go", "look", "pick-up", "drop", "attempt", "display", "quit", "buy", "sell", "fight");
     // synonm lists for commands
-    public static final List<String> GO_LIST = Arrays.asList("go", "walk", "run");
+    public static final List<String> GO_LIST = Arrays.asList("go", "walk", "move");
     public static final List<String> ATTEMPT_LIST = Arrays.asList("attempt", "solve", "try");
     public static final List<String> PICK_UP_LIST = Arrays.asList("pick-up", "get", "try");
     public static final List<String> DISPLAY_LIST = Arrays.asList("display", "show", "list");

@@ -37,6 +37,7 @@ public class Prompter {
                 case 2:
                     switch (action) {
                         case "go":
+                            CoinGod.chance(player);
                             player.moveTo(userInputList.get(1));
                             break;
                         case "attempt":
