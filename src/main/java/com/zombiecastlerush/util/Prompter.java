@@ -132,7 +132,7 @@ public class Prompter {
         else if (puzzle.isCleared()) {
             System.out.println(Parser.GREEN + "Right answer. You can now move to the available rooms" + Parser.ANSI_RESET);
             if (puzzle.getInventory().getItems().size() > 0) {
-                System.out.println(Parser.GREEN + puzzle.getDescription() + " drops " + puzzle.getInventory().toString() + "\n" + Parser.ANSI_RESET);
+                System.out.println("You have solved the riddle, and unlocked. " + Parser.GREEN  + puzzle.getInventory().toString() + "\n" + Parser.ANSI_RESET);
                 puzzle.getInventory().transferItem(
                         puzzle.getInventory(),
                         room.getInventory(),
@@ -224,6 +224,7 @@ public class Prompter {
                 Parser.GREEN + "display status" + Parser.ANSI_RESET,
                 Parser.GREEN + "help" + Parser.ANSI_RESET,
                 Parser.GREEN + "quit" + Parser.ANSI_RESET));
+
 
         if (room.getChallenge() instanceof Puzzle && !room.getChallenge().isCleared())
             actionApplicable.add(Parser.GREEN + "attempt puzzle" + Parser.ANSI_RESET);
