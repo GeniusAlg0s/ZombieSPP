@@ -30,14 +30,14 @@ public class Castle {
 
         //add Challenge to room
         eastWing.setChallenge(new Puzzle("East-Wing-Puzzle", "I shave every day, but my beard stays the same. What am I?", "Barber"));
-        eastWing.getChallenge().getInventory().addItems(new Item("Knife", "This is a knife", 25.0),new Item("Sword", "The Sword of Light", 100));
+        eastWing.getChallenge().getInventory().addItems(new Item("Knife", "This is a knife", 50.0));
         westWing.setChallenge(new Puzzle("West-Wing-Puzzle", "The person who makes it has no need of it; the person who buys it has no use for it. The person who uses it can neither see nor feel it. What is it?", "Coffin"));
-        westWing.getChallenge().getInventory().addItems(new Item("Spoon", "This is a spoon", 25.0));
+        westWing.getChallenge().getInventory().addItems(new Item("Spoon", "This is a spoon", 50.0));
         westWing.getChallenge().getInventory().addItems(new Item("Coins", "You have solved the riddle, unlocked coins.",150.0));
         castleHall.setChallenge(new Puzzle("Castle-Hall-Puzzle", "What has many teeth, but cannot bite?", "Comb"));
-        castleHall.getChallenge().getInventory().addItems(new Item("Fork", "This is a fork", 5.0));
+        castleHall.getChallenge().getInventory().addItems(new Item("Fork", "This is a fork", 25.0));
         drawBridge.setChallenge(new Puzzle("Draw-Bridge-Puzzle", "What can travel all around the world without leaving its corner?", "Stamp"));
-        drawBridge.getChallenge().getInventory().addItems(new Item("Vase", "This is a vase", 5.0));
+        drawBridge.getChallenge().getInventory().addItems(new Item("Vase", "This is a vase", 50.0) ,new Item("Sword", "The Sword of Light", 100));
         //new room
         graveyard.setChallenge(new Combat("Life or Death Battle"));
         combatHall.setChallenge(new Combat("Life or Death Battle"));
@@ -50,7 +50,8 @@ public class Castle {
                 new Item("Sword", "This is the sword of Destiny, made up of the Valyrian Steel", 100.0),
                 new Item("Helmet", "This is the ultimate shield which will be carried by Captain America in the distant future", 50.0),
                 new Item("Potion", "Drinking this potion will restore your health", 100.0),
-                new Item("Wand", "This magic wand will help get across any enemy and increase your probability of survival", 260.0)
+                new Item("Wand", "Magic Wand", 260.0),
+                new Item("50 CAL", "This weapon will destroy enemy into pieces and even their close one won't be able to recognize them", 400.0)
         );
 
         //Add rooms to castleRooms

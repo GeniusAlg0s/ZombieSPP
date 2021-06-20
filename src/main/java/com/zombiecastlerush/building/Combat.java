@@ -17,12 +17,19 @@ public class Combat extends Challenge {
     public static void combat(Role player, Role enemy) {
         List<Item> items = player.getInventory().getItems();
         for (Item item : items) {
-            if (item.getName().equals("Sword")){
-                playerDamageToEnemy += 20;
-            if(item.getName().equals("Wand")) {
-                playerDamageToEnemy +=100;
-            }
+            if (item.getName().equals("Wand")){
+                playerDamageToEnemy += 30; //replaces sword with wand
+                items.remove(item);
                 System.out.println("You draw your " + item.getDescription());
+                break;
+            }
+        }
+        for (Item item: items) {
+            if (item.getName().equals("Potion")) {
+                player.increaseHealth(30);
+                items.remove(item);
+                System.out.println("Your health after your potion consumption is "+ player.getHealth());
+                break;
             }
         }
 
