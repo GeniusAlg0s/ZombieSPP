@@ -34,7 +34,6 @@ public class Game {
         String userName = Prompter.getUserInput("Welcome to Zombie Castle Rush! \n\nPlease enter your name:");
         player = new Player(userName);
         player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
-        player.setAcctBalance(500);
         showInstructions();
 
         while (true) {
