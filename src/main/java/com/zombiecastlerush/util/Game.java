@@ -30,17 +30,25 @@ public class Game {
     /**
      * TODO: What does start() provide?
      */
+
+//    public void start() throws JsonProcessingException {
+//        UserInterface ui = UserInterface.getInstance();
+//        ui.startUI();
+//        showInstructions();
+//
+//        while (true) {
+//        }
+//    }
+
     public void start() throws JsonProcessingException {
 
-        UserInterface ui = UserInterface.getInstance();
-        ui.startUI();
-//        String userName = Prompter.getUserInput("Welcome to Zombie Castle Rush! \n\nPlease enter your name:");
-//        player = new Player(userName);
-//        player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
+        String userName = Prompter.getUserInput("Welcome to Zombie Castle Rush! \n\nPlease enter your name:");
+        player = new Player(userName);
+        player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
         showInstructions();
 
         while (true) {
-//            Prompter.advanceGame(player);
+            Prompter.advanceGame(player);
         }
     }
 
@@ -66,7 +74,7 @@ public class Game {
         System.out.printf("%2s %-30s %1s %-1s %n", " 8.", "display instructions","|    ", "\"help\"");
         System.out.printf("%2s %-30s %1s %-1s %n", " 9.", "quit the game","|    ", "\"quit\"");
 
-//        Prompter.getUserInput("\nPress enter to continue...");
+        Prompter.getUserInput("\nPress enter to continue...");
         Prompter.clearScreen();
     }
 
