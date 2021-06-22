@@ -2,7 +2,7 @@ package com.zombiecastlerush.entity;
 
 import com.zombiecastlerush.building.Challenge;
 import com.zombiecastlerush.building.Room;
-import com.zombiecastlerush.util.Parser;
+import com.zombiecastlerush.util.UserInterface;
 
 import java.util.List;
 
@@ -45,13 +45,16 @@ public class Player extends Role {
         if (targetRoom != null && roomChallengeflag) {
             String previous = this.getCurrentPosition().getName();
             this.setCurrentPosition(targetRoom);
-            System.out.printf(Parser.GREEN + "Player %s moved from the %s to the %s\n", this.getName(), previous, this.getCurrentPosition().getName() + Parser.ANSI_RESET);
+            System.out.printf("Player %s moved from the %s to the %s\n", this.getName(), previous, this.getCurrentPosition().getName());
             return true;
         } else if (targetRoom == null) {
-            System.out.printf(Parser.RED + "Player %s's current room %s doesn't connect to room: %s %n", this.getName(), this.getCurrentPosition().getName(), roomName + Parser.ANSI_RESET);
+            System.out.printf("Player %s's current room %s doesn't connect to room: %s %n", this.getName(), this.getCurrentPosition().getName(), roomName);
             return false;
         } else {
-            System.out.println(Parser.RED + currRoomChallenge.getDescription() + " must be cleared before you can move to " + targetRoom + Parser.ANSI_RESET);
+            String mustTry = currRoomChallenge.getDescription() + " must be cleared before you can move to " + targetRoom;
+            System.out.println(mustTry);
+            UserInterface.descTextArea.setText(mustTry);
+
             return false;
         }
     }

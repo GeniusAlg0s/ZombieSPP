@@ -1,36 +1,57 @@
 package com.zombiecastlerush.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.zombiecastlerush.building.Castle;
+import com.zombiecastlerush.entity.Player;
+
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
+import java.util.Scanner;
 
-class UserInterface {
+import static java.awt.event.KeyEvent.VK_ENTER;
 
-    final static boolean shouldFill = true;
-    final static boolean shouldWeightX = true;
-    final static boolean RIGHT_TO_LEFT = false;
+public class UserInterface {
 
+    private final static boolean shouldFill = true;
+    private final static boolean shouldWeightX = true;
+    private final static boolean RIGHT_TO_LEFT = false;
+
+    private static UserInterface userInterface;
     static JFrame gameWindow;
-    static Container container;
-    static Font titleFont = new Font("Impact", Font.PLAIN, 70);
-    static Font normalFont = new Font("Impact", Font.PLAIN, 16);
-    static JTextPane titlePane;
-    static JTextField nameField;
-    static JButton newGameButton;
+    private static Container container;
+    private static Font titleFont = new Font("Impact", Font.PLAIN, 70);
+    private static Font normalFont = new Font("Monospace", Font.PLAIN, 16);
+    private static JTextPane titlePane;
+    private static JTextField nameField;
+    private static JButton newGameButton;
+    public static JButton submitButton;
+    public static JTextField playerInput;
+    public static JTextArea combatTextArea;
+    public static JTextArea playerTextArea;
+    public static JTextArea descTextArea;
+    private static JTextPane textPane;
+    private static Player player = Game.player;
+    private static Castle castle = Game.castle;
+    private static Game game = Game.game;
 
     NewGameHandler ngHandler = new NewGameHandler();
+    PlayerActionHandler paHandler = new PlayerActionHandler();
 
-    public static void main(String[] args) {
-        new UserInterface();
+    private UserInterface() {
     }
 
-    public UserInterface() {
+    public static UserInterface getInstance() {
+        if (UserInterface.userInterface == null){
+            UserInterface.userInterface = new UserInterface();
+        }
+        return UserInterface.userInterface;
+    }
+
+    public void startUI() {
 
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
@@ -65,6 +86,7 @@ class UserInterface {
         titlePane.setEditable(false);
 
         nameField = new JTextField("Enter your name");
+        nameField.setHorizontalAlignment(JTextField.CENTER);
         nameField.setFont(normalFont);
         nameField.setBackground(Color.black);
         nameField.setForeground(Color.GREEN);
@@ -127,10 +149,6 @@ class UserInterface {
             pane.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
         }
 
-        JButton button;
-        JTextField text;
-        JTextArea textArea;
-        JTextPane textPane;
         pane.setLayout(new GridBagLayout());
         pane.setBackground(Color.blue);
         GridBagConstraints c = new GridBagConstraints();
@@ -156,11 +174,11 @@ class UserInterface {
         pane.add(textPane, c);
         textPane.setEditable(false);
 
-        textArea = new JTextArea("Combat Text Area");
-        textArea.setFont(normalFont);
-        textArea.setBackground(Color.black);
-        textArea.setForeground(Color.green);
-        textArea.setPreferredSize(new Dimension (350, 200));
+        combatTextArea = new JTextArea("Combat Text Area");
+        combatTextArea.setFont(normalFont);
+        combatTextArea.setBackground(Color.black);
+        combatTextArea.setForeground(Color.green);
+        combatTextArea.setPreferredSize(new Dimension (350, 200));
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 1.0;
         c.weighty = 1.0;
@@ -168,14 +186,16 @@ class UserInterface {
         c.gridx = 0;
         c.gridy = 1;
         c.gridwidth = 3;
-        pane.add(textArea, c);
-        textArea.setEditable(false);
+        pane.add(combatTextArea, c);
+        combatTextArea.setEditable(false);
 
-        textArea = new JTextArea("Status Text area");
-        textArea.setFont(normalFont);
-        textArea.setBackground(Color.black);
-        textArea.setForeground(Color.green);
-        textArea.setPreferredSize(new Dimension (350, 200));
+        playerTextArea = new JTextArea("Player Name: " + player.getName()
+                                + "\nHit Points: " + player.getHealth()
+                                + "\nInventory: " + player.getInventory());
+        playerTextArea.setFont(normalFont);
+        playerTextArea.setBackground(Color.black);
+        playerTextArea.setForeground(Color.green);
+        playerTextArea.setPreferredSize(new Dimension (350, 200));
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.weighty = 1.0;
@@ -183,14 +203,16 @@ class UserInterface {
         c.gridx = 4;
         c.gridy = 1;
         c.gridwidth = 2;
-        pane.add(textArea, c);
-        textArea.setEditable(false);
+        pane.add(playerTextArea, c);
+        playerTextArea.setEditable(false);
 
-        textArea = new JTextArea("Description Text area");
-        textArea.setFont(normalFont);
-        textArea.setBackground(Color.black);
-        textArea.setForeground(Color.green);
-        textArea.setPreferredSize(new Dimension (700, 200));
+        descTextArea = new JTextArea();
+        descTextArea.setLineWrap(true);
+//        descTextArea.setText(Prompter.displayCurrentScene(player));
+        descTextArea.setFont(normalFont);
+        descTextArea.setBackground(Color.black);
+        descTextArea.setForeground(Color.green);
+        descTextArea.setPreferredSize(new Dimension (700, 200));
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 1.0;
         c.weighty = 1.0;
@@ -198,29 +220,29 @@ class UserInterface {
         c.gridx = 0;
         c.gridy = 2;
         c.gridwidth = 5;
-        pane.add(textArea, c);
-        textArea.setEditable(false);
+        pane.add(descTextArea, c);
+        descTextArea.setEditable(false);
 
-        text = new JTextField("Input Command");
-        text.setFont(normalFont);
-        text.setBackground(Color.black);
-        text.setForeground(Color.green);
-        text.setPreferredSize(new Dimension(200, 20));
-        text.setForeground(Color.gray);
-        text.addFocusListener(new FocusListener() {
+        playerInput = new JTextField("Input Command");
+        playerInput.setFont(normalFont);
+        playerInput.setBackground(Color.black);
+        playerInput.setForeground(Color.green);
+        playerInput.setPreferredSize(new Dimension(200, 20));
+        playerInput.setForeground(Color.gray);
+        playerInput.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (text.getText().equals("Input Command")) {
-                    text.setText("");
-                    text.setForeground(Color.green);
+                if (playerInput.getText().equals("Input Command")) {
+                    playerInput.setText("");
+                    playerInput.setForeground(Color.green);
                 }
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (text.getText().isEmpty()) {
-                    text.setForeground(Color.gray);
-                    text.setText("Input Command");
+                if (playerInput.getText().isEmpty()) {
+                    playerInput.setForeground(Color.gray);
+                    playerInput.setText("Input Command");
                 }
             }
         });
@@ -232,11 +254,11 @@ class UserInterface {
         c.gridwidth = 4;
         c.gridx = 0;
         c.gridy = 3;
-        pane.add(text, c);
+        pane.add(playerInput, c);
 
-        button = new JButton("SUBMIT");
-        button.setFont(normalFont);
-        button.setPreferredSize(new Dimension(100, 20));
+        submitButton = new JButton("SUBMIT");
+        submitButton.setFont(normalFont);
+        submitButton.setPreferredSize(new Dimension(100, 20));
         c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 0;
         c.weighty = 1.0;
@@ -245,7 +267,8 @@ class UserInterface {
         c.gridx = 4;
         c.gridwidth = 1;
         c.gridy = 3;
-        pane.add(button, c);
+        submitButton.addActionListener(userInterface.paHandler);
+        pane.add(submitButton, c);
     }
 
     private static void createAndShowGUI() {
@@ -257,6 +280,19 @@ class UserInterface {
         gameWindow.setVisible(true);
     }
 
+    private static boolean checkBlankField() {
+        StringBuilder errorBlank = new StringBuilder();
+        String defInput = "Enter your name";
+
+        if (defInput.equals(nameField.getText())) {
+            nameField.setBackground(Color.red);
+            errorBlank.append("Please enter your name");
+            Frame frame = new JFrame();
+            JOptionPane.showMessageDialog(frame, errorBlank, "Name Required", JOptionPane.WARNING_MESSAGE);
+        }
+        return errorBlank.length() == 0;
+    }
+
     public class NewGameHandler implements ActionListener {
         public void actionPerformed(ActionEvent event) {
 
@@ -264,10 +300,29 @@ class UserInterface {
             //creating and showing this application's GUI.
             javax.swing.SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-                    createAndShowGUI();
+                    boolean valid = checkBlankField();
+                    if (valid) {
+                        String playerName = nameField.getText();
+                        player = new Player(playerName);
+                        player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
+
+                        Frame frame = new JFrame();
+                        JOptionPane.showMessageDialog(frame, game.printInstructions(), "Game Instructions", JOptionPane.QUESTION_MESSAGE);
+                        createAndShowGUI();
+                    }
                 }
             });
+        }
+    }
 
+    public class PlayerActionHandler implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            try {
+                Prompter.advanceGame(player);
+            }
+            catch (JsonProcessingException e) {
+                System.out.println("Exception advancing game");
+            }
         }
     }
 }
