@@ -31,7 +31,8 @@ public class Game {
      */
     public void start() throws JsonProcessingException {
 
-        String userName = Prompter.getUserInput("Welcome to Zombie Castle Rush! \n\nPlease enter your name:");
+        String userName = Prompter.getUserInput(
+                "Welcome to Zombie Castle Rush! \n\nPlease enter your name:");
         player = new Player(userName);
         player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
         showInstructions();
