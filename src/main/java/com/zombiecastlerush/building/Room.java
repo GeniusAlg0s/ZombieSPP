@@ -11,8 +11,8 @@ import java.util.List;
 
 @JsonPropertyOrder({"name", "description", "connectedRooms", "challenge", "inventory"})
 public class Room extends Entity {
-    private String name;
-    private String description;
+//    private String name;
+//    private String description;
     private boolean isExit;
     private List<Room> connectedRooms = new ArrayList<>();
     private Challenge challenge;

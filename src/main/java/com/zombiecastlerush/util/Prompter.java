@@ -32,11 +32,12 @@ public class Prompter {
 
         if (userInputList != null) {
             String action = userInputList.get(0);
-
             switch (userInputList.size()) {
+
                 case 2:
                     switch (action) {
                         case "go":
+                            CoinGod.chance(player);
                             player.moveTo(userInputList.get(1));
                             break;
                         case "attempt":
@@ -117,6 +118,8 @@ public class Prompter {
                     break;
             }
         } else {
+            //sout invalid input
+            System.out.println("invalid input");
             Game.getInstance().showInstructions();
         }
     }
@@ -130,7 +133,7 @@ public class Prompter {
         else if (puzzle.isCleared()) {
             System.out.println(Parser.GREEN + "Right answer. You can now move to the available rooms" + Parser.ANSI_RESET);
             if (puzzle.getInventory().getItems().size() > 0) {
-                System.out.println(Parser.GREEN + puzzle.getDescription() + " drops " + puzzle.getInventory().toString() + "\n" + Parser.ANSI_RESET);
+                System.out.println("You have solved the riddle, and unlocked. " + Parser.GREEN  + puzzle.getInventory().toString() + "\n" + Parser.ANSI_RESET);
                 puzzle.getInventory().transferItem(
                         puzzle.getInventory(),
                         room.getInventory(),
@@ -148,12 +151,27 @@ public class Prompter {
         if (!cleared) {
             Combat.combat(player, enemy);
             while (player.getHealth() > 0 && enemy.getHealth() > 0) {
+                //creat temporary list to check for fight synonyms while in combat
+                List<String> fightTemp= new ArrayList<>();
+                List<String> runTemp= new ArrayList<>();
+                fightTemp.addAll(Parser.FIGHT_LIST);
+                runTemp.addAll(Parser.RUN_LIST);
+
                 String msg = "what would you like to do, \"fight\" or \"run\"?";
-                String combatChoice = Prompter.getUserInput(msg);
+                String combatChoice = Prompter.getUserInput(msg).toLowerCase();
+
+                //checks if combat choice is synonym for fight or run
+                if(fightTemp.contains(combatChoice)){
+                    combatChoice = "fight";
+                }else if(runTemp.contains(combatChoice)){
+                    combatChoice = "run";
+                } else {
+                    combatChoice = combatChoice;
+                }
                 if (combatChoice.equals("fight")) {
                     Combat.combat(player, enemy);
                 } else if (combatChoice.equals("run")) {
-                    System.out.println("don't be a coward");
+                    System.out.println("Don't be a coward you cannot escape");
                     Combat.enemyAttack(player, enemy);
                 }
             }
@@ -193,8 +211,10 @@ public class Prompter {
             Challenge currRoomChallenge = currentRoom.getChallenge();
             if (currRoomChallenge instanceof Puzzle) {
                 System.out.println("The box pulses with power. You know not how, but it has a riddle for you, and it will not let you leave until you have solved it. Perhaps you should " + Parser.GREEN + "attempt puzzle" + Parser.ANSI_RESET + ".");
-            } else if (currRoomChallenge instanceof Combat) {
+            } else if (currRoomChallenge instanceof Combat && currentRoom.getName().equals("Combat-Hall")) {
                 System.out.println("A rotting hand reaches and knocks the lid to the ground with a resounding crash. A monster rises from the coffin and fixes its lifeless, pitiless gaze upon you. It's time to " + Parser.GREEN + "fight" + Parser.ANSI_RESET + ".");
+            } else if (currRoomChallenge instanceof Combat && currentRoom.getName().equals("Grave-Yard")) {
+                System.out.println("The ghost goes underground. A posed corps digs up from underground and fixes its lifeless, pitiless gaze upon you. It's time to " + Parser.GREEN + "fight" + Parser.ANSI_RESET + ".");
             }
         } else {
 
@@ -221,6 +241,7 @@ public class Prompter {
                 Parser.GREEN + "help" + Parser.ANSI_RESET,
                 Parser.GREEN + "quit" + Parser.ANSI_RESET));
 
+
         if (room.getChallenge() instanceof Puzzle && !room.getChallenge().isCleared())
             actionApplicable.add(Parser.GREEN + "attempt puzzle" + Parser.ANSI_RESET);
         if (room instanceof Shop) {
@@ -235,6 +256,8 @@ public class Prompter {
             actionApplicable.add(Parser.GREEN + "drop" + Parser.ANSI_RESET);
         }
         if (room.getName().equalsIgnoreCase("Combat-Hall") && !room.getChallenge().isCleared())
+            actionApplicable.add(Parser.GREEN + "fight" + Parser.ANSI_RESET);
+        if (room.getName().equalsIgnoreCase("Grave-Yard") && !room.getChallenge().isCleared())
             actionApplicable.add(Parser.GREEN + "fight" + Parser.ANSI_RESET);
         return actionApplicable;
     }
