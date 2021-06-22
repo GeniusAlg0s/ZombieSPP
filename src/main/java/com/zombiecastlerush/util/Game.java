@@ -6,15 +6,16 @@ import com.zombiecastlerush.entity.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * singleton class Game
  * it provides access to a Map and a role Controller
  */
 public class Game {
-    private static Game game;
-    private Castle castle = new Castle();
-    private Player player;
+    static Game game;
+    static Castle castle = new Castle();
+    static Player player;
 
     private Game() {
     }
@@ -31,13 +32,15 @@ public class Game {
      */
     public void start() throws JsonProcessingException {
 
-        String userName = Prompter.getUserInput("Welcome to Zombie Castle Rush! \n\nPlease enter your name:");
-        player = new Player(userName);
-        player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
+        UserInterface ui = UserInterface.getInstance();
+        ui.startUI();
+//        String userName = Prompter.getUserInput("Welcome to Zombie Castle Rush! \n\nPlease enter your name:");
+//        player = new Player(userName);
+//        player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
         showInstructions();
 
         while (true) {
-            Prompter.advanceGame(player);
+//            Prompter.advanceGame(player);
         }
     }
 
@@ -63,7 +66,27 @@ public class Game {
         System.out.printf("%2s %-30s %1s %-1s %n", " 8.", "display instructions","|    ", "\"help\"");
         System.out.printf("%2s %-30s %1s %-1s %n", " 9.", "quit the game","|    ", "\"quit\"");
 
-        Prompter.getUserInput("\nPress enter to continue...");
+//        Prompter.getUserInput("\nPress enter to continue...");
         Prompter.clearScreen();
+    }
+
+    public String printInstructions() {
+        StringBuffer instructions = new StringBuffer();
+        ArrayList <String> instructionList = new ArrayList<>();
+        instructionList.add("\nGame Instructions:\n");
+        instructionList.add("Action                                           Command to Type");
+        instructionList.add("---------------------      |    -------------------------------------");
+        instructionList.add(" 1. Go somewhere                    |    \"go\" and one of the available locations displayed");
+        instructionList.add(" 2. Attempt a puzzle                |    \"attempt puzzle\"");
+        instructionList.add(" 3. Display player's status       |    \"display status\"");
+        instructionList.add(" 4. Pick-up or drop an item     |    \"pick-up\", \"drop\" and \"item name\"");
+        instructionList.add(" 5. Buy an item from the shop |    \"buy\" and \"item name\"");
+        instructionList.add(" 6. Sell an item to the shop     |    \"sell\" and \"item name\"");
+        instructionList.add(" 7. Fight a monster                  |    \"fight\"");
+        instructionList.add(" 8. Display instructions           |    \"help\"");
+        instructionList.add(" 9. Quit the game                    |    \"quit\"");
+
+        instructionList.forEach(instruction -> instructions.append(instruction + "\n"));
+        return instructions.toString();
     }
 }
