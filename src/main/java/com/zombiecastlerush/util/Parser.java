@@ -10,8 +10,8 @@ public class Parser {
     public static final String YELLOW = "\u001B[33m"; //YELLOW
     public static final String ANSI_RESET = "\u001B[0m";
 
-    final static List<String> ALLOWED_ACTIONS = Arrays.asList("go", "look", "pick-up", "drop", "attempt", "display", "quit", "buy", "sell", "fight");
-    // synonm lists for commands
+    final static List<String> ALLOWED_ACTIONS = Arrays.asList("go", "look", "pick-up", "drop", "attempt", "display", "quit", "buy", "sell", "fight", "spin");
+    // synonym lists for commands
     public static final List<String> GO_LIST = Arrays.asList("go", "walk", "move");
     public static final List<String> ATTEMPT_LIST = Arrays.asList("attempt", "solve", "try");
     public static final List<String> PICK_UP_LIST = Arrays.asList("pick-up", "get", "try");
@@ -24,7 +24,7 @@ public class Parser {
 
     public static List<String> parse(String input) {
         List<String> inputWords = Arrays.asList(input.toLowerCase().split(" "));
-        //assign local varibale to value of corresponding synonym command if found
+        //assign local variable to value of corresponding synonym command if found
         String check = checkSyn(input);
         inputWords.set(0, check);
         List<String> result = ALLOWED_ACTIONS.contains(check) ? reduceInputWordsToList(inputWords) : null;

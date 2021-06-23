@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class PrompterTest {
-    Room room1;
+   static Room room1;
     Player p1;
     Shop s1 = new Shop("S1", "The shop");
 

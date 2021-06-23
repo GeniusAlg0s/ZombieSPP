@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class Combat extends Challenge {
     static int playerDamageToEnemy = new Random().nextInt(50) + 1;
-    static int enemyDamageToPlayer = new Random().nextInt(50) + 1;
+    static int enemyDamageToPlayer = new Random().nextInt(30) + 1;
 
     public Combat(String description) {
         super(description);
@@ -31,6 +31,10 @@ public class Combat extends Challenge {
                 System.out.println("Your health after your potion consumption is "+ player.getHealth());
                 break;
             }
+        }
+        Room current = player.getCurrentPosition();
+        if(current.getName().equals("Grave-Yard")) {
+            playerDamageToEnemy+=10;
         }
 
         if (player.getHealth() > 0 && enemy.getHealth() > 0) {
