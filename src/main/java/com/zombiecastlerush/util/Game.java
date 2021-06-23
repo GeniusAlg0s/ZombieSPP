@@ -29,6 +29,16 @@ public class Game {
     /**
      * TODO: What does start() provide?
      */
+
+//    public void start() throws JsonProcessingException {
+//        UserInterface ui = UserInterface.getInstance();
+//        ui.startUI();
+//        showInstructions();
+//
+//        while (true) {
+//        }
+//    }
+
     public void start() throws JsonProcessingException {
 
         String userName = Prompter.getUserInput(

@@ -37,6 +37,7 @@ public class Prompter {
                 case 2:
                     switch (action) {
                         case "go":
+                            CoinGod.chance(player);
                             player.moveTo(userInputList.get(1));
                             break;
                         case "attempt":
@@ -170,8 +171,8 @@ public class Prompter {
                 if (combatChoice.equals("fight")) {
                     Combat.combat(player, enemy);
                 } else if (combatChoice.equals("run")) {
-                    System.out.println("Don't be a coward you cannot escape");
-                    Combat.enemyAttack(player, enemy);
+                    System.out.println("You cannot escape!!.. enemy attacks");
+                    Combat.enemyAttack(player,enemy);
                 }
             }
             if (enemy.getHealth() <= 0 || player.getHealth() <= 0) {

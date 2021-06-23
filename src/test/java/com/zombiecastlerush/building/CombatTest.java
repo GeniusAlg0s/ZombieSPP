@@ -34,7 +34,7 @@ public class CombatTest {
     public void enemyFight() {
         player.setHealth(1);
         enemy.setHealth(100);
-        Combat.enemyAttack(player, enemy);
+        Combat.enemyAttack(player,enemy);
         assertEquals(0, player.getHealth());
     }
 }
