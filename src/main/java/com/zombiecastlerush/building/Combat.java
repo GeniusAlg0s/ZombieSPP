@@ -34,10 +34,10 @@ public class Combat extends Challenge {
         }
 
         if (player.getHealth() > 0 && enemy.getHealth() > 0) {
-            playerAttack(player, enemy);
+            playerAttack(player,enemy);
         }
         if (enemy.getHealth() > 0 && player.getHealth() > 0) {
-            enemyAttack(player, enemy);
+            enemyAttack(player,enemy);
         }
     }
 
@@ -47,6 +47,7 @@ public class Combat extends Challenge {
             if (enemy.getHealth() < 0) enemy.setHealth(0);
             System.out.println("Enemy sustained " + playerDamageToEnemy + " damage. ");
             System.out.println("Enemy health is now: " + enemy.getHealth());
+            tauntOnPlayerAttack(player,enemy);
     }
 
     public static void enemyAttack(Role player, Role enemy) {
@@ -55,5 +56,32 @@ public class Combat extends Challenge {
             if (player.getHealth() < 0) player.setHealth(0);
             System.out.printf("You sustained %s damage \n", enemyDamageToPlayer);
             System.out.printf("Your health is now: %s \n", player.getHealth());
+            tauntOnEnemyAttack(player,enemy);
+    }
+    public static void tauntOnPlayerAttack(Role player, Role enemy){
+        if(player.getHealth()<enemy.getHealth()){
+            CoinGod.pause(1000);
+            System.out.println("LOL that tickled is that all you got???...");
+            CoinGod.pause(2000);
+        }else{
+            CoinGod.pause(1000);
+            System.out.println("OUCH...");
+            CoinGod.pause(1000);
+            System.out.println("you shall not defeat me!!");
+            CoinGod.pause(2000);
+        }
+    }
+    public static void tauntOnEnemyAttack(Role player, Role enemy){
+        if(player.getHealth()<enemy.getHealth()){
+            CoinGod.pause(1000);
+            System.out.println("How was that DEATH SANDWICH??");
+            CoinGod.pause(2000);
+        }else{
+            CoinGod.pause(1000);
+            System.out.println("OUCH...");
+            CoinGod.pause(1000);
+            System.out.println("You lucky little shrimp");
+            CoinGod.pause(2000);
+        }
     }
 }
