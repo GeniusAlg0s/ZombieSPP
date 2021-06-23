@@ -171,8 +171,8 @@ public class Prompter {
                 if (combatChoice.equals("fight")) {
                     Combat.combat(player, enemy);
                 } else if (combatChoice.equals("run")) {
-                    System.out.println("Don't be a coward you cannot escape");
-                    Combat.enemyAttack(player, enemy);
+                    System.out.println("You cannot escape!!.. enemy attacks");
+                    Combat.enemyAttack(player,enemy);
                 }
             }
             if (enemy.getHealth() <= 0 || player.getHealth() <= 0) {
