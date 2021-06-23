@@ -26,7 +26,8 @@ public class CombatTest {
     public void playerFight_enemyAttacked_healthReducedToZero() {
         player.setHealth(100);
         enemy.setHealth(1);
-        Combat.combat(player, enemy);
+        Combat.playerAttack(player, enemy);
+        System.out.println(enemy.getHealth());
         assertEquals(0, enemy.getHealth());
     }
 

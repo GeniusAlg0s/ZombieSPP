@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({"description, inventory, cleared"})
 public class Challenge extends Entity {
 
-    private boolean cleared;
+    private  boolean cleared;
 
     public Challenge(String description) {
         super.setDescription(description);
@@ -22,8 +22,8 @@ public class Challenge extends Entity {
      * @param flag
      * @return
      */
-    public void setCleared(boolean flag) {
-        this.cleared = flag;
+    public  void setCleared(boolean flag) {
+       this.cleared = flag;
     }
 
     public boolean isCleared() {
