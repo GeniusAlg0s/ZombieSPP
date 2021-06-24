@@ -15,7 +15,6 @@ public class Game {
     private static Game game;
     private Castle castle = new Castle();
     private Player player;
-    private String path = "src/main/resources/sound/longSound.wav";
 
     private Game() {
     }
@@ -37,7 +36,6 @@ public class Game {
         player = new Player(userName);
         player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
         showInstructions();
-        new MusicPlayer(path).soundLoop();
         while (true) {
             Prompter.advanceGame(player);
         }

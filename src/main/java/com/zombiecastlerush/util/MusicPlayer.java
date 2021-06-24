@@ -22,5 +22,8 @@ class MusicPlayer extends JFrame {
         clip.setFramePosition(0);
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
+    public void stop(){
+        clip.stop();
+    }
 
 }

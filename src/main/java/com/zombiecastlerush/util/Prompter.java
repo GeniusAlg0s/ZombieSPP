@@ -17,6 +17,10 @@ import java.util.Scanner;
  * TODO: deploy APIs that supports the web game version
  */
 public class Prompter {
+
+    private static String path = "src/main/resources/sound/longSound.wav";
+    private static MusicPlayer mp = new MusicPlayer(path);
+
     public static String getUserInput(String displayMessage) {
         System.out.printf(displayMessage + "\n>");
         Scanner sc = new Scanner(System.in);
@@ -24,6 +28,7 @@ public class Prompter {
     }
 
     static void advanceGame(Player player) throws JsonProcessingException {
+        mp.soundLoop();
         displayCurrentScene(player);
         Room currentRoom = player.getCurrentPosition();
         String userInput = Prompter.getUserInput("Enter \"help\" if you need help with the commands");
@@ -112,7 +117,7 @@ public class Prompter {
                             }
                             break;
                         case "spin":
-                            if(currentRoom.getName().equals("Tomb")){
+                            if (currentRoom.getName().equals("Tomb")) {
                                 getUserInput("\nLets get money... press enter to continue");
                                 playSlot(player);
                                 break;
@@ -129,24 +134,35 @@ public class Prompter {
             Game.getInstance().showInstructions();
         }
     }
-    static void playSlot(Player player)throws JsonProcessingException{
+    /*
+    *these will allow the user to start and stop back ground music
+    * to used in gui not the console version as it will
+    * be attached to JButtons
+     */
+    static void stopMusic() {
+    mp.stop();
+    }
+    static void startMusic(){
+        mp.soundLoop();
+    }
+    static void playSlot(Player player) throws JsonProcessingException {
         Room currentRoom = player.getCurrentPosition();
         Roulette roulette = (Roulette) currentRoom.getChallenge();
         roulette.setCleared(true);
-        if(player.getAcctBalance()<=0){
+        if (player.getAcctBalance() <= 0) {
             System.out.println("*********\nOUT OF CASH\n*********");
             return;
         }
-        if(player.getAcctBalance()<=2){
+        if (player.getAcctBalance() <= 2) {
             player.setAcctBalance(0);
-            System.out.println("new balance: "+ player.getAcctBalance());
-        }else {
+            System.out.println("new balance: " + player.getAcctBalance());
+        } else {
             player.setAcctBalance(player.getAcctBalance() - 2);
             System.out.println("new balance: " + player.getAcctBalance());
         }
-        int [] currentSlot = Roulette.spin();
-        System.out.println("Last Spin : "+ Arrays.toString(currentSlot));
-        Roulette.checkMatch(currentSlot,player);
+        int[] currentSlot = Roulette.spin();
+        System.out.println("Last Spin : " + Arrays.toString(currentSlot));
+        Roulette.checkMatch(currentSlot, player);
         advanceGame(player);
 
     }
@@ -160,7 +176,7 @@ public class Prompter {
         else if (puzzle.isCleared()) {
             System.out.println(Parser.GREEN + "Right answer. You can now move to the available rooms" + Parser.ANSI_RESET);
             if (puzzle.getInventory().getItems().size() > 0) {
-                System.out.println("You have solved the riddle, and unlocked. " + Parser.GREEN  + puzzle.getInventory().toString() + "\n" + Parser.ANSI_RESET);
+                System.out.println("You have solved the riddle, and unlocked. " + Parser.GREEN + puzzle.getInventory().toString() + "\n" + Parser.ANSI_RESET);
                 puzzle.getInventory().transferItem(
                         puzzle.getInventory(),
                         room.getInventory(),
@@ -179,8 +195,8 @@ public class Prompter {
             Combat.combat(player, enemy);
             while (player.getHealth() > 0 && enemy.getHealth() > 0) {
                 //creat temporary list to check for fight synonyms while in combat
-                List<String> fightTemp= new ArrayList<>();
-                List<String> runTemp= new ArrayList<>();
+                List<String> fightTemp = new ArrayList<>();
+                List<String> runTemp = new ArrayList<>();
                 fightTemp.addAll(Parser.FIGHT_LIST);
                 runTemp.addAll(Parser.RUN_LIST);
 
@@ -188,9 +204,9 @@ public class Prompter {
                 String combatChoice = Prompter.getUserInput(msg).toLowerCase();
 
                 //checks if combat choice is synonym for fight or run
-                if(fightTemp.contains(combatChoice)){
+                if (fightTemp.contains(combatChoice)) {
                     combatChoice = "fight";
-                }else if(runTemp.contains(combatChoice)){
+                } else if (runTemp.contains(combatChoice)) {
                     combatChoice = "run";
                 } else {
                     combatChoice = combatChoice;
@@ -246,8 +262,8 @@ public class Prompter {
                 System.out.println("A rotting hand reaches and knocks the lid to the ground with a resounding crash. A monster rises from the coffin and fixes its lifeless, pitiless gaze upon you. It's time to " + Parser.GREEN + "fight" + Parser.ANSI_RESET + ".");
             } else if (currRoomChallenge instanceof Combat && currentRoom.getName().equals("Grave-Yard")) {
                 System.out.println("The ghost goes underground. A posed corps digs up from underground and fixes its lifeless, pitiless gaze upon you. It's time to " + Parser.GREEN + "fight" + Parser.ANSI_RESET + ".");
-            }else if (currentRoom.getName().equalsIgnoreCase("Tomb")){
-                System.out.println("\nYou can keep playing"+ Parser.GREEN +"spin"+Parser.ANSI_RESET+" or you can " + Parser.GREEN + "go" + Parser.ANSI_RESET + " to one of the following locations " + availableRooms);
+            } else if (currentRoom.getName().equalsIgnoreCase("Tomb")) {
+                System.out.println("\nYou can keep playing" + Parser.GREEN + "spin" + Parser.ANSI_RESET + " or you can " + Parser.GREEN + "go" + Parser.ANSI_RESET + " to one of the following locations " + availableRooms);
             }
         } else {
 
@@ -294,7 +310,7 @@ public class Prompter {
         if (room.getName().equalsIgnoreCase("Grave-Yard") && !room.getChallenge().isCleared()) {
             actionApplicable.add(Parser.GREEN + "fight" + Parser.ANSI_RESET);
         }
-        if(room.getName().equalsIgnoreCase("Tomb")){
+        if (room.getName().equalsIgnoreCase("Tomb")) {
             actionApplicable.add(Parser.GREEN + "spin" + Parser.ANSI_RESET);
         }
         return actionApplicable;
