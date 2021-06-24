@@ -28,11 +28,7 @@ public class PrompterTest {
 
     @Test
     public void testSceneContextmenu_whenEmptyRoom_playerHasNothing() {
-        List<String> expected_testactionList = new ArrayList<>(Arrays.asList(
-                Parser.GREEN + "go" + Parser.ANSI_RESET,
-                Parser.GREEN + "display status" + Parser.ANSI_RESET,
-                Parser.GREEN + "help" + Parser.ANSI_RESET,
-                Parser.GREEN + "quit" + Parser.ANSI_RESET));
+        List<String> expected_testactionList = new ArrayList<>(Arrays.asList("go"));
         List<String> actual_list = Prompter.sceneContextmenu(room1, p1);
         assertEquals(expected_testactionList, actual_list);
     }
@@ -40,12 +36,7 @@ public class PrompterTest {
     @Test
     public void testSceneContextmenu_whenRoomHasAnItemPlayerHasNothing() {
         room1.getInventory().addItems(new Item("Stick", "Long Stick", 10.0));
-        List<String> expected_testactionList = new ArrayList<>(Arrays.asList(
-                Parser.GREEN + "go" + Parser.ANSI_RESET,
-                Parser.GREEN + "display status" + Parser.ANSI_RESET,
-                Parser.GREEN + "help" + Parser.ANSI_RESET,
-                Parser.GREEN + "quit" + Parser.ANSI_RESET,
-                Parser.GREEN + "pick-up" + Parser.ANSI_RESET));
+        List<String> expected_testactionList = new ArrayList<>(Arrays.asList("go", "pick-up"));
         List<String> actual_list = Prompter.sceneContextmenu(room1, p1);
         assertEquals(expected_testactionList, actual_list);
     }
@@ -53,12 +44,7 @@ public class PrompterTest {
     @Test
     public void testSceneContextmenu_whenRoomHasNothingPlayerHasItem() {
         p1.getInventory().addItems(new Item("Stick", "Long Stick", 10.0));
-        List<String> expected_testactionList = new ArrayList<>(Arrays.asList(
-                Parser.GREEN + "go" + Parser.ANSI_RESET,
-                Parser.GREEN + "display status" + Parser.ANSI_RESET,
-                Parser.GREEN + "help" + Parser.ANSI_RESET,
-                Parser.GREEN + "quit" + Parser.ANSI_RESET,
-                Parser.GREEN + "drop" + Parser.ANSI_RESET));
+        List<String> expected_testactionList = new ArrayList<>(Arrays.asList("go", "drop"));
         List<String> actual_list = Prompter.sceneContextmenu(room1, p1);
         assertEquals(expected_testactionList, actual_list);
     }
@@ -67,13 +53,7 @@ public class PrompterTest {
     public void testSceneContextmenu_whenRoomHasSomething_PlayerHasSomething() {
         room1.getInventory().addItems(new Item("Stick", "Long Stick", 10.0));
         p1.getInventory().addItems(new Item("Lamp", "Bright lamp", 10.0));
-        List<String> expected_testactionList = new ArrayList<>(Arrays.asList(
-                Parser.GREEN + "go" + Parser.ANSI_RESET,
-                Parser.GREEN + "display status" + Parser.ANSI_RESET,
-                Parser.GREEN + "help" + Parser.ANSI_RESET,
-                Parser.GREEN + "quit" + Parser.ANSI_RESET,
-                Parser.GREEN + "pick-up" + Parser.ANSI_RESET,
-                Parser.GREEN + "drop" + Parser.ANSI_RESET));
+        List<String> expected_testactionList = new ArrayList<>(Arrays.asList("go", "pick-up", "drop"));
         List<String> actual_list = Prompter.sceneContextmenu(room1, p1);
         assertEquals(expected_testactionList, actual_list);
     }
@@ -82,25 +62,14 @@ public class PrompterTest {
     public void testSceneContextmenu_whenRoomHasAnItemPlayerHasSomething() {
         room1.getInventory().addItems(new Item("Stick", "Long Stick", 10.0));
         p1.getInventory().addItems(new Item("Lamp", "Bright lamp", 10.0));
-        List<String> expected_testactionList = new ArrayList<>(Arrays.asList(
-                Parser.GREEN + "go" + Parser.ANSI_RESET,
-                Parser.GREEN + "display status" + Parser.ANSI_RESET,
-                Parser.GREEN + "help" + Parser.ANSI_RESET,
-                Parser.GREEN + "quit" + Parser.ANSI_RESET,
-                Parser.GREEN + "pick-up" + Parser.ANSI_RESET,
-                Parser.GREEN + "drop" + Parser.ANSI_RESET));
+        List<String> expected_testactionList = new ArrayList<>(Arrays.asList("go", "pick-up", "drop"));
         List<String> actual_list = Prompter.sceneContextmenu(room1, p1);
         assertEquals(expected_testactionList, actual_list);
     }
 
     @Test
     public void testSceneContextmenu_whenRoomisShop_playerhasNothing() {
-        List<String> expected_testactionList = new ArrayList<>(Arrays.asList(
-                Parser.GREEN + "go" + Parser.ANSI_RESET,
-                Parser.GREEN + "display status" + Parser.ANSI_RESET,
-                Parser.GREEN + "help" + Parser.ANSI_RESET,
-                Parser.GREEN + "quit" + Parser.ANSI_RESET,
-                Parser.GREEN + "buy" + Parser.ANSI_RESET));
+        List<String> expected_testactionList = new ArrayList<>(Arrays.asList("go", "buy"));
         List<String> actual_list = Prompter.sceneContextmenu(s1, p1);
         assertEquals(expected_testactionList, actual_list);
     }
@@ -108,13 +77,7 @@ public class PrompterTest {
     @Test
     public void testSceneContextmenu_whenRoomisShop_playerhasSomething() {
         p1.getInventory().addItems(new Item("MRE", "Best Food", 10.0));
-        List<String> expected_testactionList = new ArrayList<>(Arrays.asList(
-                Parser.GREEN + "go" + Parser.ANSI_RESET,
-                Parser.GREEN + "display status" + Parser.ANSI_RESET,
-                Parser.GREEN + "help" + Parser.ANSI_RESET,
-                Parser.GREEN + "quit" + Parser.ANSI_RESET,
-                Parser.GREEN + "buy" + Parser.ANSI_RESET,
-                Parser.GREEN + "sell" + Parser.ANSI_RESET));
+        List<String> expected_testactionList = new ArrayList<>(Arrays.asList("go", "buy", "sell"));
         List<String> actual_list = Prompter.sceneContextmenu(s1, p1);
         assertEquals(expected_testactionList, actual_list);
     }
@@ -123,22 +86,13 @@ public class PrompterTest {
     public void testSceneContextmenu_whenRoomisCombatHall() {
         room1.setName("Combat-Hall");
         room1.setChallenge(new Challenge("Monster"));
-        List<String> expected_testactionList = new ArrayList<>(Arrays.asList(
-                Parser.GREEN + "go" + Parser.ANSI_RESET,
-                Parser.GREEN + "display status" + Parser.ANSI_RESET,
-                Parser.GREEN + "help" + Parser.ANSI_RESET,
-                Parser.GREEN + "quit" + Parser.ANSI_RESET,
-                Parser.GREEN + "fight" + Parser.ANSI_RESET));
+        List<String> expected_testactionList = new ArrayList<>(Arrays.asList("battle"));
         List<String> actual_list = Prompter.sceneContextmenu(room1, p1);
         assertEquals(expected_testactionList, actual_list);
 
         //when monster is cleared
         room1.getChallenge().setCleared(true);
-        expected_testactionList = new ArrayList<>(Arrays.asList(
-                Parser.GREEN + "go" + Parser.ANSI_RESET,
-                Parser.GREEN + "display status" + Parser.ANSI_RESET,
-                Parser.GREEN + "help" + Parser.ANSI_RESET,
-                Parser.GREEN + "quit" + Parser.ANSI_RESET));
+        expected_testactionList = new ArrayList<>(Arrays.asList("go"));
         actual_list = Prompter.sceneContextmenu(room1, p1);
         assertEquals(expected_testactionList, actual_list);
     }

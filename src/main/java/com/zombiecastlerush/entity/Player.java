@@ -31,7 +31,8 @@ public class Player extends Role {
      *
      * @param roomName
      */
-    public boolean moveTo(String roomName) {
+    public String moveTo(String roomName) {
+        StringBuilder moveString = new StringBuilder();
         Room targetRoom = this.canMoveToRoom(roomName);
         Challenge currRoomChallenge = this.getCurrentPosition().getChallenge();
         boolean roomChallengeflag;
@@ -45,14 +46,20 @@ public class Player extends Role {
         if (targetRoom != null && roomChallengeflag) {
             String previous = this.getCurrentPosition().getName();
             this.setCurrentPosition(targetRoom);
-            System.out.printf(Parser.GREEN + "Player %s moved from the %s to the %s\n", this.getName(), previous, this.getCurrentPosition().getName() + Parser.ANSI_RESET);
-            return true;
+            String tgtRoom= String.format("Player %s moved from the %s to the %s\n", this.getName(), previous, this.getCurrentPosition().getName());
+            System.out.println(tgtRoom);
+            moveString.append(tgtRoom);
+            return moveString.toString();
         } else if (targetRoom == null) {
-            System.out.printf(Parser.RED + "Player %s's current room %s doesn't connect to room: %s %n", this.getName(), this.getCurrentPosition().getName(), roomName + Parser.ANSI_RESET);
-            return false;
+            String tgtRoom = String.format("Player %s's current room %s doesn't connect to room: %s %n", this.getName(), this.getCurrentPosition().getName(), roomName);
+            System.out.println(tgtRoom);
+            moveString.append(tgtRoom);
+            return moveString.toString();
         } else {
-            System.out.println(Parser.RED + currRoomChallenge.getDescription() + " must be cleared before you can move to " + targetRoom + Parser.ANSI_RESET);
-            return false;
+            String tgtRoom = currRoomChallenge.getDescription() + " must be cleared before you can move to " + targetRoom;
+            System.out.println(tgtRoom);
+            moveString.append(tgtRoom);
+            return moveString.toString();
         }
     }
 

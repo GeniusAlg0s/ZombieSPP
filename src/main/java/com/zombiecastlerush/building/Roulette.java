@@ -22,46 +22,32 @@ public class Roulette extends Challenge{
         spins[3]=d;
         return spins;
     }
-    public static void checkMatch(int [] arr, Player player){
+    public static String checkMatch(int [] arr, Player player){
+        StringBuilder rouletteString = new StringBuilder();
         if(arr.length!=4){
             System.out.println("invalid arr");
-            return;
+            return null;
         }
 
         ///wins
         else if(arr[0]==7 && arr[1]==7 && arr[2]==7 && arr[3]==7){
-            player.setAcctBalance(player.getAcctBalance()+70);
-            System.out.println("Congratulations");
-            CoinGod.pause(2000);
-            System.out.println("Big JackPot!!...new balance: "+ player.getAcctBalance());
+            player.setAcctBalance(player.getAcctBalance() + 140);
+            rouletteString.append("Congratulations!\n");
+            rouletteString.append("BIG JACKPOT!!... New balance: "+ player.getAcctBalance() + "\n");
         } else if(arr[0]==arr[1] && arr[1]==arr[2] && arr[2]==arr[3]){
-            player.setAcctBalance(player.getAcctBalance()+70);
-            System.out.println("JackPot!!...new balance: "+ player.getAcctBalance());
-        } else if(arr[0]==arr[1] && arr[1]==arr[2]){
-            player.setAcctBalance(player.getAcctBalance()+35);
-            System.out.println("Mini JackPot!!...new balance: "+ player.getAcctBalance());
-        }else if(arr[1]==arr[2] && arr[2]==arr[3]){
-            player.setAcctBalance(player.getAcctBalance()+35);
-            System.out.println("Mini JackPot!!...new balance: "+ player.getAcctBalance());
-        }else if(arr[0]==arr[1] && arr[1]==arr[3]) {
+            player.setAcctBalance(player.getAcctBalance() + 70);
+            rouletteString.append("JackPot!!... New balance: "+ player.getAcctBalance() + "\n");
+        } else if((arr[0]==arr[1] && arr[1]==arr[2]) || (arr[1]==arr[2] && arr[2]==arr[3]) || (arr[0]==arr[1] && arr[1]==arr[3]) || (arr[0]==arr[2] && arr[2]==arr[3])){
             player.setAcctBalance(player.getAcctBalance() + 35);
-            System.out.println("Mini JackPot!!...new balance: " + player.getAcctBalance());
-        }else if(arr[0]==arr[2] && arr[2]==arr[3]) {
-            player.setAcctBalance(player.getAcctBalance() + 35);
-            System.out.println("Mini JackPot!!...new balance: " + player.getAcctBalance());
-        }else if(arr[0]==arr[1]){
+            rouletteString.append("Mini JackPot!!... New balance: "+ player.getAcctBalance() + "\n");
+        }else if(arr[0]==arr[1] || arr[1]==arr[2] || arr[2]==arr[3]){
             player.setAcctBalance(player.getAcctBalance() + 12);
-            System.out.println("Doubles!!...new balance: " + player.getAcctBalance());
-        }else if(arr[1]==arr[2]){
-            player.setAcctBalance(player.getAcctBalance() + 12);
-            System.out.println("Doubles!!...new balance: " + player.getAcctBalance());
-        }else if(arr[2]==arr[3]){
-            player.setAcctBalance(player.getAcctBalance() + 12);
-            System.out.println("Doubles!!...new balance: " + player.getAcctBalance());
+            rouletteString.append("Doubles!!... New balance: " + player.getAcctBalance() + "\n");
         }else if(arr[0]==arr[3]){
             player.setAcctBalance(player.getAcctBalance() + 7);
-            System.out.println("Corners!!...new balance: " + player.getAcctBalance());
+            rouletteString.append("Corners!!... New balance: " + player.getAcctBalance() + "\n");
         }
+        return rouletteString.toString();
     }
 public  void abd(){
         this.setCleared(true);
