@@ -198,8 +198,12 @@ public class Prompter {
                 if (combatChoice.equals("fight")) {
                     Combat.combat(player, enemy);
                 } else if (combatChoice.equals("run")) {
-                    System.out.println("You cannot escape!!.. enemy attacks");
-                    Combat.enemyAttack(player,enemy);
+                    player.setCurrentPosition(player.getCurrentPosition().getConnectedRooms().get(0));
+                    System.out.println("That is a weak move. But you have escaped death for now.");
+                    player.decreaseHealth(15);
+                    System.out.println("Since you escaped, you took a damage of 15 points on your health.");
+                    break;
+//                  Combat.enemyAttack(player,enemy);
                 }
             }
             if (enemy.getHealth() <= 0 || player.getHealth() <= 0) {

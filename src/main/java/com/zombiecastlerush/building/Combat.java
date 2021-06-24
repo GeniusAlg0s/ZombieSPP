@@ -16,6 +16,8 @@ public class Combat extends Challenge {
 
     public static void combat(Role player, Role enemy) {
         List<Item> items = player.getInventory().getItems();
+        playerDamageToEnemy = new Random().nextInt(50) + 1;
+        enemyDamageToPlayer = new Random().nextInt(50) + 1;
         for (Item item : items) {
             if (item.getName().equals("Wand")){
                 playerDamageToEnemy += 30; //replaces sword with wand
