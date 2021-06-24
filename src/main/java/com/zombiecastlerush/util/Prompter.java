@@ -137,7 +137,7 @@ public class Prompter {
     /*
     *these will allow the user to start and stop back ground music
     * to used in gui not the console version as it will
-    * be attached to JButtons later
+    * be attached to JButtons
      */
     static void stopMusic() {
     mp.stop();
