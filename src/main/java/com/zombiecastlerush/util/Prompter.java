@@ -111,14 +111,12 @@ public class Prompter {
                                 break;
                             }
                             break;
-//                        case "run":
-//                            if(!currentRoom.getChallenge().isCleared() && userInputList.get(0).equals("run")){
-//                                if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Combat && !currentRoom.getChallenge().isCleared()) {
-//                                  player.setCurrentPosition(currentRoom.getConnectedRooms().get(0));
-//                            }
-//                        }
-//                            break;
-
+                        case "spin":
+                            if(currentRoom.getName().equals("Tomb")){
+                                getUserInput("\nLets get money... press enter to continue");
+                                playSlot(player);
+                                break;
+                            }
                         case "quit":
                             Game.getInstance().stop();
                             break;
@@ -130,6 +128,27 @@ public class Prompter {
             System.out.println("invalid input");
             Game.getInstance().showInstructions();
         }
+    }
+    static void playSlot(Player player)throws JsonProcessingException{
+        Room currentRoom = player.getCurrentPosition();
+        Roulette roulette = (Roulette) currentRoom.getChallenge();
+        roulette.setCleared(true);
+        if(player.getAcctBalance()<=0){
+            System.out.println("*********\nOUT OF CASH\n*********");
+            return;
+        }
+        if(player.getAcctBalance()<=2){
+            player.setAcctBalance(0);
+            System.out.println("new balance: "+ player.getAcctBalance());
+        }else {
+            player.setAcctBalance(player.getAcctBalance() - 2);
+            System.out.println("new balance: " + player.getAcctBalance());
+        }
+        int [] currentSlot = Roulette.spin();
+        System.out.println("Last Spin : "+ Arrays.toString(currentSlot));
+        Roulette.checkMatch(currentSlot,player);
+        advanceGame(player);
+
     }
 
     static void solvePuzzle(Room room) {
@@ -227,6 +246,8 @@ public class Prompter {
                 System.out.println("A rotting hand reaches and knocks the lid to the ground with a resounding crash. A monster rises from the coffin and fixes its lifeless, pitiless gaze upon you. It's time to " + Parser.GREEN + "fight" + Parser.ANSI_RESET + ".");
             } else if (currRoomChallenge instanceof Combat && currentRoom.getName().equals("Grave-Yard")) {
                 System.out.println("The ghost goes underground. A posed corps digs up from underground and fixes its lifeless, pitiless gaze upon you. It's time to " + Parser.GREEN + "fight" + Parser.ANSI_RESET + ".");
+            }else if (currentRoom.getName().equalsIgnoreCase("Tomb")){
+                System.out.println("\nYou can keep playing"+ Parser.GREEN +"spin"+Parser.ANSI_RESET+" or you can " + Parser.GREEN + "go" + Parser.ANSI_RESET + " to one of the following locations " + availableRooms);
             }
         } else {
 
@@ -267,10 +288,15 @@ public class Prompter {
         if (!(room instanceof Shop) && player.getInventory().getItems().size() > 0) {
             actionApplicable.add(Parser.GREEN + "drop" + Parser.ANSI_RESET);
         }
-        if (room.getName().equalsIgnoreCase("Combat-Hall") && !room.getChallenge().isCleared())
+        if (room.getName().equalsIgnoreCase("Combat-Hall") && !room.getChallenge().isCleared()) {
             actionApplicable.add(Parser.GREEN + "fight" + Parser.ANSI_RESET);
-        if (room.getName().equalsIgnoreCase("Grave-Yard") && !room.getChallenge().isCleared())
+        }
+        if (room.getName().equalsIgnoreCase("Grave-Yard") && !room.getChallenge().isCleared()) {
             actionApplicable.add(Parser.GREEN + "fight" + Parser.ANSI_RESET);
+        }
+        if(room.getName().equalsIgnoreCase("Tomb")){
+            actionApplicable.add(Parser.GREEN + "spin" + Parser.ANSI_RESET);
+        }
         return actionApplicable;
     }
 
