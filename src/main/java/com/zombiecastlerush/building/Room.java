@@ -57,7 +57,7 @@ public class Room extends Entity {
 
     @Override
     public String toString() {
-        return Parser.YELLOW + getName() + Parser.ANSI_RESET;//+ "Connected Rooms: " + connectedRooms.toString(;
+        return getName();//+ "Connected Rooms: " + connectedRooms.toString(;
     }
 
     //Methods
