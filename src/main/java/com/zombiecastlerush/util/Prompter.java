@@ -18,9 +18,6 @@ import java.util.Scanner;
  */
 public class Prompter {
 
-    private static String path = "src/main/resources/sound/longSound.wav";
-    private static MusicPlayer mp = new MusicPlayer(path);
-
     public static String getUserInput(String displayMessage) {
         System.out.printf(displayMessage + "\n>");
         Scanner sc = new Scanner(System.in);
@@ -28,6 +25,7 @@ public class Prompter {
     }
 
     static void advanceGame(Player player) throws JsonProcessingException {
+        MusicPlayer mp= MusicPlayer.getInstance();
         mp.soundLoop();
         displayCurrentScene(player);
         Room currentRoom = player.getCurrentPosition();
@@ -134,17 +132,7 @@ public class Prompter {
             Game.getInstance().showInstructions();
         }
     }
-    /*
-    *these will allow the user to start and stop back ground music
-    * to used in gui not the console version as it will
-    * be attached to JButtons
-     */
-    static void stopMusic() {
-    mp.stop();
-    }
-    static void startMusic(){
-        mp.soundLoop();
-    }
+
     static void playSlot(Player player) throws JsonProcessingException {
         Room currentRoom = player.getCurrentPosition();
         Roulette roulette = (Roulette) currentRoom.getChallenge();
