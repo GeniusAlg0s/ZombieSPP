@@ -7,7 +7,7 @@ import java.io.*;
 public class MusicPlayer extends JFrame {
     private static MusicPlayer Mplayer;
     Clip clip;
-
+    float level =0;
     private MusicPlayer(String path) {
         try {
             File soundFile = new File(path);
@@ -38,5 +38,19 @@ public class MusicPlayer extends JFrame {
     public void stop() {
         clip.stop();
     }
-
+    /*
+     *these will allow the user to start and stop back ground music
+     * to used in gui not the console version as it will
+     * be attached to JButtons
+     */
+    public void lowerVolume(){
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+       level -= 5.0f;
+       gainControl.setValue(level);
+    }
+    public void higherVolume(){
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        level += 5.0f;
+        gainControl.setValue(level);
+    }
 }
