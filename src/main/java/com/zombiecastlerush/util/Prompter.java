@@ -19,6 +19,7 @@ import java.util.Scanner;
  * TODO: deploy APIs that supports the web game version
  */
 public class Prompter {
+
     public static String getUserInput(String displayMessage) {
         System.out.printf(displayMessage + "\n>");
         Scanner sc = new Scanner(System.in);
@@ -61,6 +62,8 @@ public class Prompter {
     }
 
     static void advanceGame(Player player) throws JsonProcessingException {
+        MusicPlayer mp= MusicPlayer.getInstance();
+        mp.soundLoop();
         displayCurrentScene(player);
         Room currentRoom = player.getCurrentPosition();
         String userInput = Prompter.getUserInput("Enter \"help\" if you need help with the commands");
@@ -148,7 +151,7 @@ public class Prompter {
                             }
                             break;
                         case "spin":
-                            if(currentRoom.getName().equals("Tomb")){
+                            if (currentRoom.getName().equals("Tomb")) {
                                 getUserInput("\nLets get money... press enter to continue");
                                 playSlot(player);
                                 break;
@@ -165,6 +168,7 @@ public class Prompter {
             Game.getInstance().showInstructions();
         }
     }
+
     static String playSlot(Player player){
         StringBuilder gambleString = new StringBuilder();
         Room currentRoom = player.getCurrentPosition();
@@ -174,13 +178,14 @@ public class Prompter {
             gambleString.append("*********\nOUT OF CASH\n*********");
             return gambleString.toString();
         }
-        if(player.getAcctBalance()<=2){
+        if (player.getAcctBalance() <= 2) {
             player.setAcctBalance(0);
             gambleString.append("Place your bet! New balance: "+ player.getAcctBalance() + "\n");
         }else {
             player.setAcctBalance(player.getAcctBalance() - 2);
             gambleString.append("Place your bet! New balance: " + player.getAcctBalance() + "\n");
         }
+      
         int [] currentSlot = Roulette.spin();
         gambleString.append("Last Spin : "+ Arrays.toString(currentSlot) + "\n");
         gambleString.append(Roulette.checkMatch(currentSlot,player));
@@ -204,6 +209,7 @@ public class Prompter {
             if (puzzle.getInventory().getItems().size() > 0) {
                 String unlocked = "You solved " + puzzle.getDescription() + "! Inside the box you find: " + puzzle.getInventory().toString() + "\n";
                 puzzleString.append(unlocked);
+
                 puzzle.getInventory().transferItem(
                         puzzle.getInventory(),
                         room.getInventory(),

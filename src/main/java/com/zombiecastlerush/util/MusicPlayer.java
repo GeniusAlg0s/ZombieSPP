@@ -4,10 +4,11 @@ import javax.sound.sampled.*;
 import javax.swing.*;
 import java.io.*;
 
-class MusicPlayer extends JFrame {
+public class MusicPlayer extends JFrame {
+    private static MusicPlayer Mplayer;
     Clip clip;
-
-    public MusicPlayer(String path) {
+    float level =0;
+    private MusicPlayer(String path) {
         try {
             File soundFile = new File(path);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
@@ -18,9 +19,38 @@ class MusicPlayer extends JFrame {
         }
     }
 
+    public static MusicPlayer getInstance(){
+        if(MusicPlayer.Mplayer== null){
+            MusicPlayer.Mplayer= new MusicPlayer("src/main/resources/sound/longSound.wav");
+        }
+        return MusicPlayer.Mplayer;
+    }
+
+    /*
+     *these will allow the user to start and stop back ground music
+     * to used in gui not the console version as it will
+     * be attached to JButtons
+     */
     public void soundLoop() {
         clip.setFramePosition(0);
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
-
+    public void stop() {
+        clip.stop();
+    }
+    /*
+     *these will allow the user to start and stop back ground music
+     * to used in gui not the console version as it will
+     * be attached to JButtons
+     */
+    public void lowerVolume(){
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+       level -= 5.0f;
+       gainControl.setValue(level);
+    }
+    public void higherVolume(){
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        level += 5.0f;
+        gainControl.setValue(level);
+    }
 }
