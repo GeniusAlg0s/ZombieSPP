@@ -48,7 +48,7 @@ public class MusicPlayer extends JFrame {
        level -= 5.0f;
        gainControl.setValue(level);
     }
-    public void higherVolume(){
+    public void raiseVolume(){
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         level += 5.0f;
         gainControl.setValue(level);
