@@ -70,24 +70,4 @@ public class Game {
         Prompter.getUserInput("\nPress enter to continue...");
         Prompter.clearScreen();
     }
-
-    public String printInstructions() {
-        StringBuffer instructions = new StringBuffer();
-        ArrayList <String> instructionList = new ArrayList<>();
-        instructionList.add("\nGame Instructions:\n");
-        instructionList.add("Action                                           Command to Type");
-        instructionList.add("---------------------      |    -------------------------------------");
-        instructionList.add(" 1. Go somewhere                    |    \"go\" and one of the available locations displayed");
-        instructionList.add(" 2. Attempt a puzzle                |    \"attempt puzzle\"");
-        instructionList.add(" 3. Display player's status       |    \"display status\"");
-        instructionList.add(" 4. Pick-up or drop an item     |    \"pick-up\", \"drop\" and \"item name\"");
-        instructionList.add(" 5. Buy an item from the shop |    \"buy\" and \"item name\"");
-        instructionList.add(" 6. Sell an item to the shop     |    \"sell\" and \"item name\"");
-        instructionList.add(" 7. Fight a monster                  |    \"fight\"");
-        instructionList.add(" 8. Display instructions           |    \"help\"");
-        instructionList.add(" 9. Quit the game                    |    \"quit\"");
-
-        instructionList.forEach(instruction -> instructions.append(instruction + "\n"));
-        return instructions.toString();
-    }
 }
