@@ -52,26 +52,24 @@ public class Combat extends Challenge {
     }
 
     public static String playerAttack(Role player, Role enemy) {
-//        int playerDamageToEnemy = new Random().nextInt(50) + 1;
         StringBuilder playerAttack = new StringBuilder();
             playerAttack.append("You attack......\n");
             enemy.decreaseHealth(playerDamageToEnemy);
             if (enemy.getHealth() < 0) enemy.setHealth(0);
             playerAttack.append("Enemy sustained " + playerDamageToEnemy + " damage.\n");
             playerAttack.append("Enemy health is now: " + enemy.getHealth() + "\n");
-//            tauntOnPlayerAttack(player,enemy);
+            tauntOnPlayerAttack(player,enemy);
             return playerAttack.toString();
     }
 
     public static String enemyAttack(Role player, Role enemy) {
-//        int enemyDamageToPlayer = new Random().nextInt(30) + 1;
         StringBuilder enemyAttack = new StringBuilder();
             enemyAttack.append("Enemy attacks......\n");
             player.decreaseHealth(enemyDamageToPlayer);
             if (player.getHealth() < 0) player.setHealth(0);
             enemyAttack.append(String.format("You sustained %s damage \n", enemyDamageToPlayer));
             enemyAttack.append(String.format("Your health is now: %s \n", player.getHealth()));
-//            tauntOnEnemyAttack(player,enemy);
+            tauntOnEnemyAttack(player,enemy);
             return enemyAttack.toString();
     }
     public static void tauntOnPlayerAttack(Role player, Role enemy){

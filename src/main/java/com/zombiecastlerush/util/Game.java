@@ -16,6 +16,7 @@ public class Game {
     private static Game game;
     static Castle castle = new Castle();
     static Player player;
+    static MusicPlayer maestro = MusicPlayer.getInstance();
 
     private Game() {
     }
@@ -34,6 +35,7 @@ public class Game {
     public void start() throws JsonProcessingException {
         UserInterface ui = UserInterface.getInstance();
         ui.startUI();
+        maestro.soundLoop();
         showInstructions();
 
         while (true) {

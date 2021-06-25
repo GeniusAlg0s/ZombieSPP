@@ -4,6 +4,7 @@ import com.zombiecastlerush.entity.Player;
 import com.zombiecastlerush.entity.Role;
 import com.zombiecastlerush.entity.Enemy;
 
+import com.zombiecastlerush.util.UserInterface;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,7 +16,6 @@ public class CombatTest {
 
     @Before
     public void setUp() throws Exception {
-
     }
 
     @Test
