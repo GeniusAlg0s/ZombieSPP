@@ -28,8 +28,8 @@ public class Game {
     }
     public void start() throws JsonProcessingException {
         UserInterface ui = UserInterface.getInstance();
-        ui.startUI();
         maestro.soundLoop();
+        ui.startUI();
     }
 
     public void stop() {
