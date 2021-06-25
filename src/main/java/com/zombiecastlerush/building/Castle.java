@@ -6,6 +6,7 @@ public class Castle {
     //create a map of rooms in castle
     private Map<String, Room> castleRooms = new HashMap<>();
 
+
     //Ctor
     public Castle() {
         // create rooms
@@ -15,7 +16,8 @@ public class Castle {
         Room drawBridge = new Room("Draw-Bridge", "The bridge is up, and there is no way to the other side. Nothing but the giant, open castle doors looks inviting, but alas, it is the only way forward. A box lays on the ground right before the doorway.. is that a stair case below???.");
         Room combatHall = new Room("Combat-Hall", "Festooned with the arms and armor of warriors past, this room is better lit than the others. In the middle of the room, a single coffin has been left slightly open, its lid closed just enough to obscure the contents from view");
         //new room
-        Room graveyard = new Room("Grave-Yard", "The stairs led to a grave, and there is a dead end. Nothing but a weird looking ghost, among the tomb stones. it blocks the stair case....");
+        Room graveyard = new Room("Grave-Yard", "The stairs led to a grave, and there a old looking tomb with an opening. \nThere is a weird looking ghost, among the tomb stones. it blocks the stair case....");
+        Room tomb = new Room("Tomb","Take a chance win some mullah.. \nIt costs 2 coins to play...don't stay to long the house wins eventually");
         Shop shop = new Shop("Shop", "A strangely silent shopkeeper seems to preside over a collection of wares, oblivious or indifferent to your presence.");
 
         //add connected rooms to room
@@ -25,7 +27,8 @@ public class Castle {
         westWing.addConnectedRooms(castleHall, drawBridge);
         combatHall.addConnectedRooms(eastWing);
         //new room
-        graveyard.addConnectedRooms(drawBridge);
+        graveyard.addConnectedRooms(drawBridge,tomb);
+        tomb.addConnectedRooms(graveyard);
         shop.addConnectedRooms(castleHall);
 
         //add Challenge to room
@@ -40,6 +43,7 @@ public class Castle {
         drawBridge.getChallenge().getInventory().addItems(new Item("Vase", "This is a vase", 50.0) ,new Item("Sword", "The Sword of Light", 100));
         //new room
         graveyard.setChallenge(new Combat("Life or Death Battle"));
+        tomb.setChallenge(new Roulette("spin for coins"));
         combatHall.setChallenge(new Combat("Life or Death Battle"));
         combatHall.setExit(true);
 
@@ -62,6 +66,7 @@ public class Castle {
         castleRooms.put(combatHall.getName(), combatHall);
         castleRooms.put(shop.getName(), shop);
         castleRooms.put(graveyard.getName(),graveyard); //new room
+        castleRooms.put(tomb.getName(), tomb);
     }
 
     //getter

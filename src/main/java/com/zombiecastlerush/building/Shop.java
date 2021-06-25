@@ -1,9 +1,7 @@
 package com.zombiecastlerush.building;
 
 import com.zombiecastlerush.entity.Player;
-import com.zombiecastlerush.util.Parser;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class Shop extends Room {
@@ -12,20 +10,23 @@ public class Shop extends Room {
         super(name, description);
     }
 
-    public void sellItemToPlayer(Player player, Item item) {
-        //Do we allow buying if player already has the item??--No, prompter handles
+    public String sellItemToPlayer(Player player, Item item) {
+        StringBuilder buyString = new StringBuilder();
         if (player.getAcctBalance() >= item.getPrice()) {
             player.getInventory().transferItem(this.getInventory(), player.getInventory(), item);
             player.setAcctBalance(player.getAcctBalance() - item.getPrice());
-            System.out.println(Parser.GREEN+"You've bought yourself a " + item.getName()+Parser.ANSI_RESET);
+            buyString.append("You've bought yourself a " + item.getName());
         } else
-            System.out.println(Parser.RED+"You do not have enough money to buy the " + item.getName() + "."+Parser.ANSI_RESET);
+            buyString.append("You do not have enough money to buy the " + item.getName() + ".");
+        return buyString.toString();
     }
 
-    public void buyItemFromPlayer(Player player, Item item) {
+    public String buyItemFromPlayer(Player player, Item item) {
+        StringBuilder sellString = new StringBuilder();
         player.getInventory().transferItem(player.getInventory(), this.getInventory(), item);
         player.setAcctBalance(player.getAcctBalance() + 0.75 * item.getPrice());
-        System.out.println(Parser.GREEN+"You've sold your " + item.getName() + " for " + 0.75 * item.getPrice() + "."+Parser.ANSI_RESET);
+        sellString.append("You've sold your " + item.getName() + " for " + 0.75 * item.getPrice() + ".");
+        return sellString.toString();
     }
 
     public String toStringShopInventory() {

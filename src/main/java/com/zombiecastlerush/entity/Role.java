@@ -3,15 +3,12 @@ package com.zombiecastlerush.entity;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zombiecastlerush.building.Inventory;
 import com.zombiecastlerush.building.Item;
 import com.zombiecastlerush.building.Room;
-import com.zombiecastlerush.util.Parser;
 
 /**
  * base class for all roles
- * TODO: add more functions and description
- */
+*/
 
 @JsonPropertyOrder({"name", "health", "inventory", "currentRoom"})
 public class Role extends Entity {
@@ -101,7 +98,6 @@ public class Role extends Entity {
             if (item.equals(existingItem)) {
                 this.getInventory().addItems(item);
                 this.getCurrentPosition().getInventory().deleteItems(item);
-                System.out.println(Parser.GREEN + item.getName() + " picked up by " + this.getName() + Parser.ANSI_RESET);
                 return item;
             }
         }
@@ -113,7 +109,6 @@ public class Role extends Entity {
             if (item.equals(existingItem)) {
                 this.getCurrentPosition().getInventory().addItems(item);
                 this.getInventory().deleteItems(item);
-                System.out.println(Parser.GREEN + item.getName() + " dropped by " + this.getName() + Parser.ANSI_RESET);
                 return item;
             }
         }
