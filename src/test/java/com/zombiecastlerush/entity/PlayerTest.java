@@ -1,13 +1,11 @@
 package com.zombiecastlerush.entity;
 
 import com.zombiecastlerush.building.Room;
-import com.zombiecastlerush.util.Game;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 public class PlayerTest {
-    private Game game = Game.getInstance();
     private Player player = new Player("Player name # 1");
     private Room r0 = new Room("room#0", "ENTRY room");
 

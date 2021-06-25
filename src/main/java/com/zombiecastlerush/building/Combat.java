@@ -80,5 +80,4 @@ public class Combat extends Challenge {
         }
         return enemyAttack.toString();
     }
-
 }

@@ -39,6 +39,7 @@ public class UserInterface {
     private static GridBagConstraints c;
     private static Combat combat = new Combat("fight me bro");
     private static Role enemy;
+    private static MusicPlayer maestro = Game.maestro;
 
     // Action Handlers
     NewGameHandler ngHandler = new NewGameHandler();
@@ -49,6 +50,7 @@ public class UserInterface {
     BuyActionHandler buyHandler = new BuyActionHandler();
     SellActionHandler sellHandler = new SellActionHandler();
     OtherActionHandler otherHandler = new OtherActionHandler();
+    SoundActionHandler soundHandler = new SoundActionHandler();
 
     private UserInterface() {
     }
@@ -176,6 +178,46 @@ public class UserInterface {
             c.fill = GridBagConstraints.HORIZONTAL;
         }
 
+        // Music control buttons
+        JPanel soundButtonPanel = new JPanel(new GridLayout(1, 4));
+        soundButtonPanel.setBackground(Color.blue);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.NORTH;
+        c.ipady = 0;
+        c.weighty = 1.0;
+        c.insets = new Insets(10, 10, 10, 10);
+        c.gridwidth = 4;
+        c.gridheight = 2;
+        pane.add(soundButtonPanel, c);
+
+        JButton soundOnButton = new JButton("SOUND ON");
+        soundOnButton.setFont(normalFont);
+        soundOnButton.setPreferredSize(new Dimension(100, 40));
+        soundOnButton.setActionCommand("on");
+        soundOnButton.addActionListener(userInterface.soundHandler);
+        soundButtonPanel.add(soundOnButton);
+
+        JButton soundOffButton = new JButton("SOUND OFF");
+        soundOffButton.setFont(normalFont);
+        soundOffButton.setPreferredSize(new Dimension(100, 40));
+        soundOffButton.setActionCommand("off");
+        soundOffButton.addActionListener(userInterface.soundHandler);
+        soundButtonPanel.add(soundOffButton);
+
+        JButton volumeUpButton = new JButton("VOL UP");
+        volumeUpButton.setFont(normalFont);
+        volumeUpButton.setPreferredSize(new Dimension(100, 40));
+        volumeUpButton.setActionCommand("up");
+        volumeUpButton.addActionListener(userInterface.soundHandler);
+        soundButtonPanel.add(volumeUpButton);
+
+        JButton volumeDownButton = new JButton("VOL DOWN");
+        volumeDownButton.setFont(normalFont);
+        volumeDownButton.setPreferredSize(new Dimension(100, 40));
+        volumeDownButton.setActionCommand("down");
+        volumeDownButton.addActionListener(userInterface.soundHandler);
+        soundButtonPanel.add(volumeDownButton);
+
         //Game title
         textPane = new JTextPane();
         textPane.setText("ZOMBIE CASTLE RUSH");
@@ -185,12 +227,13 @@ public class UserInterface {
         StyledDocument doc = textPane.getStyledDocument();
         doc.setParagraphAttributes(0, doc.getLength(), center, false);
         c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
         c.weightx = 0.0;
         c.weighty = 0.2;
-        c.insets = new Insets(10, 30, 60, 30);
+        c.insets = new Insets(50, 30, 10, 30);
         c.gridx = 0;
-        c.gridy = 0;
-        c.gridwidth = 3;
+        c.gridy = 1;
+        c.gridwidth = 4;
         pane.add(textPane, c);
         textPane.setEditable(false);
 
@@ -200,13 +243,13 @@ public class UserInterface {
         eventTextArea.setBackground(Color.black);
         eventTextArea.setForeground(Color.green);
         eventTextArea.setPreferredSize(new Dimension(200, 200));
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 1.0;
+        c.anchor = GridBagConstraints.LINE_START;
+        c.gridx = 0;
+        c.gridy = 2;
+        c.weightx = 0.5;
         c.weighty = 0.5;
         c.insets = new Insets(10, 10, 10, 10);
-        c.gridx = 0;
-        c.gridy = 1;
-        c.gridwidth = 1;
+        c.gridwidth = 2;
         pane.add(eventTextArea, c);
         eventTextArea.setEditable(false);
 
@@ -217,13 +260,14 @@ public class UserInterface {
         playerTextArea.setBackground(Color.black);
         playerTextArea.setForeground(Color.green);
         playerTextArea.setPreferredSize(new Dimension(200, 200));
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.LINE_END;
+        c.gridx = 2;
+        c.gridy = 2;
         c.weightx = 0.5;
         c.weighty = 0.5;
         c.insets = new Insets(10, 10, 10, 10);
-        c.gridx = 1;
-        c.gridy = 1;
         c.gridwidth = 2;
+        c.gridheight = 2;
         pane.add(playerTextArea, c);
         playerTextArea.setEditable(false);
 
@@ -237,13 +281,14 @@ public class UserInterface {
         descTextArea.setBackground(Color.black);
         descTextArea.setForeground(Color.green);
         descTextArea.setPreferredSize(new Dimension(400, 200));
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 1.0;
+        c.anchor = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = 4;
+        c.weightx = 0.5;
         c.weighty = 1.0;
         c.insets = new Insets(10, 10, 10, 10);
-        c.gridx = 0;
-        c.gridy = 2;
-        c.gridwidth = 3;
+        c.gridwidth = 4;
+        c.gridheight = 2;
         pane.add(descTextArea, c);
         descTextArea.setEditable(false);
 
@@ -252,16 +297,19 @@ public class UserInterface {
         mainButtonPanel.setBackground(Color.blue);
         mainButtonPanel.setPreferredSize(new Dimension(400, 200));
         c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.PAGE_END;
+        c.gridx = 0;
+        c.gridy = 6;
         c.ipady = 0;
         c.weighty = 1.0;
         c.insets = new Insets(10, 10, 10, 10);
-        c.gridx = 0;
-        c.gridwidth = 3;
-        c.gridheight = 2;
-        c.gridy = 3;
+        c.gridwidth = 4;
+        c.gridheight = 1;
         pane.add(mainButtonPanel, c);
         // add main buttons to main button panel
         mainButtons();
+        pane.revalidate();
+        pane.repaint();
     }
 
     // method called by new game handler to create and sho main game GUI
@@ -561,7 +609,7 @@ public class UserInterface {
                     if (valid) {
                         String playerName = nameField.getText();
                         player = new Player(playerName);
-                        player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
+                        player.setCurrentPosition(castle.getCastleRooms().get("Grave-Yard"));
 
                         createAndShowGUI();
                     }
@@ -639,7 +687,6 @@ public class UserInterface {
                     descTextArea.setText(player.getName() + " could not drop the " + dropItem.getName() + "!\n\nTry again later!");
                 }
             }
-
             // update player info and go main buttons
             updatePlayerInfo();
             goMain();
@@ -663,7 +710,6 @@ public class UserInterface {
             if (buyItem != null) {
                 descTextArea.setText(((Shop) currentRoom).sellItemToPlayer(player, buyItem) + "!\n\n" + Prompter.displayCurrentScene(player));
             }
-
             // update player info and go to main buttons
             updatePlayerInfo();
             goMain();
@@ -704,10 +750,15 @@ public class UserInterface {
 
             // fight
             if (action.equals("fight")) {
-//                combatText.append(combat.playerAttack(player, enemy) + "\n");
-//                combatText.append(combat.enemyAttack(player, enemy) + "\n");
                 combatText.append(combat.combat(player, enemy));
                 updatePlayerInfo();
+                if (enemy.getHealth() <= 0 || player.getHealth() <= 0) {
+                    if (player.getHealth() <= 0) {
+                        Frame frame = new JFrame();
+                        JOptionPane.showMessageDialog(frame, "You have died... Game Over.");
+                        game.stop();
+                    }
+                }
                 if (enemy.getHealth() <= 0) {
                     currentRoom.getChallenge().setCleared(true);
                     if (currentRoom.isExit()) {
@@ -716,28 +767,25 @@ public class UserInterface {
                         game.stop();
                     }
                     updatePlayerInfo();
-                    updateEventText("You defeated " + enemy.getName());
+                    updateEventText(combatText + "\n" + "You defeated " + enemy.getName());
                     goMain();
+                } else {
+                    updatePlayerInfo();
+                    updateEventText(combatText.toString());
                 }
-                if (enemy.getHealth() <= 0 || player.getHealth() <= 0) {
-                    if (player.getHealth() <= 0) {
-//                    Prompter.getUserInput("You are dead. Press Enter to continue.");
-                        Frame frame = new JFrame();
-                        JOptionPane.showMessageDialog(frame, "You have died... Game Over.");
-                        game.stop();
-                    }
-                }
-                updatePlayerInfo();
-                updateEventText(combatText.toString());
             }
 
             // run
             if (action.equals("run")) {
-                player.setCurrentPosition(player.getCurrentPosition().getConnectedRooms().get(0));
+                Room prevRoom = player.getCurrentPosition();
+                Room runRoom = player.getCurrentPosition().getConnectedRooms().get(0);
+                player.setCurrentPosition(runRoom);
                 updateEventText(enemy.getName() + ": \"That is a weak move. But you have escaped death... for now.\"\n\n " +
                         "You escaped, but you took 15 damage doing so!");
                 player.decreaseHealth(15);
                 updatePlayerInfo();
+                String tgtRoom = String.format("Player %s moved from the %s to the %s\n", player.getName(), prevRoom.getName(), runRoom.getName());
+                descTextArea.setText(tgtRoom);
                 goMain();
             }
 
@@ -748,4 +796,27 @@ public class UserInterface {
             }
         }
     }
+
+    public class SoundActionHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String action = e.getActionCommand();
+
+            switch (action) {
+                case "on":
+                    maestro.soundLoop();
+                    break;
+                case "off":
+                    maestro.stop();
+                    break;
+                case "up":
+                    maestro.raiseVolume();
+                    break;
+                case "down":
+                    maestro.lowerVolume();
+                    break;
+            }
+        }
+    }
+
 }
