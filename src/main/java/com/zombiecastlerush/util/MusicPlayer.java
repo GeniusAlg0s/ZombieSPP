@@ -1,9 +1,10 @@
 package com.zombiecastlerush.util;
 
 import javax.sound.sampled.*;
+import javax.swing.*;
 import java.io.*;
 
-public class MusicPlayer {
+public class MusicPlayer extends JFrame {
     private static MusicPlayer Mplayer;
     Clip clip;
     float level =0;
