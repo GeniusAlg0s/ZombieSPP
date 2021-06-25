@@ -81,30 +81,4 @@ public class Combat extends Challenge {
         return enemyAttack.toString();
     }
 
-//    public static void tauntOnPlayerAttack(Role player, Role enemy) {
-//        UserInterface ui = UserInterface.getInstance();
-//        if (player.getHealth() < enemy.getHealth()) {
-//            CoinGod.pause(500);
-//            ui.updateEventText("LOL that tickled is that all you got???...");
-//            CoinGod.pause(500);
-//        } else {
-//
-//            CoinGod.pause(500);
-//            ui.updateEventText("you shall not defeat me!!");
-//            CoinGod.pause(500);
-//        }
-//    }
-//
-//    public static void tauntOnEnemyAttack(Role player, Role enemy) {
-//        UserInterface ui = UserInterface.getInstance();
-//        if (player.getHealth() < enemy.getHealth()) {
-//            CoinGod.pause(500);
-//            ui.updateEventText("How was that DEATH SANDWICH??");
-//            CoinGod.pause(500);
-//        } else {
-//            CoinGod.pause(500);
-//            ui.updateEventText("You lucky little shrimp");
-//            CoinGod.pause(500);
-//        }
-//    }
 }
