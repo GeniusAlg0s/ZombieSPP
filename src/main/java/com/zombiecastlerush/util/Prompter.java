@@ -1,30 +1,16 @@
 package com.zombiecastlerush.util;
 
 import com.zombiecastlerush.building.*;
-import com.zombiecastlerush.entity.Enemy;
 import com.zombiecastlerush.entity.Player;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.zombiecastlerush.entity.Role;
-
-import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * static class and methods
  * interacting between users and this game
- * TODO: deploy APIs that supports the web game version
  */
 public class Prompter {
-
-    public static String getUserInput(String displayMessage) {
-        System.out.printf(displayMessage + "\n>");
-        Scanner sc = new Scanner(System.in);
-        return sc.nextLine();
-    }
 
     static void advanceGame(String action, Player player) {
         UserInterface ui = UserInterface.getInstance();
@@ -61,114 +47,6 @@ public class Prompter {
         }
     }
 
-    static void advanceGame(Player player) throws JsonProcessingException {
-        MusicPlayer mp= MusicPlayer.getInstance();
-        mp.soundLoop();
-        displayCurrentScene(player);
-        Room currentRoom = player.getCurrentPosition();
-        String userInput = Prompter.getUserInput("Enter \"help\" if you need help with the commands");
-        List<String> userInputList = Parser.parse(userInput);
-        clearScreen();
-
-        if (userInputList != null) {
-            String action = userInputList.get(0);
-            switch (userInputList.size()) {
-
-                case 2:
-                    switch (action) {
-                        case "go":
-                            CoinGod.chance(player);
-                            player.moveTo(userInputList.get(1));
-                            break;
-                        case "attempt":
-                            if (userInputList.get(1).equals("puzzle")) {
-                                if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Puzzle && !currentRoom.getChallenge().isCleared()) {
-                                    getUserInput("\nYou touch your hands to the box and cannot let go. You feel that the box demands you answer its question. You do not know how or why you are compelled, but you are.\nPress Enter to solve the Puzzle.");
-                                    solvePuzzle(currentRoom, null);
-                                } else
-                                    System.out.println("There is no puzzle in the room");
-                            }
-                            break;
-                        case "display":
-                            if (userInputList.get(1).equalsIgnoreCase("status"))
-                                System.out.println(player.displayStatus());
-                            break;
-                        case "pick-up":
-                            if (!(currentRoom instanceof Shop)) {
-                                for (Item item : currentRoom.getInventory().getItems()) {
-                                    if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
-                                        player.pickUp(item);
-                                        break;
-                                    }
-                                }
-                            } else {
-                                System.out.println(Parser.RED + "You can't do that here." + Parser.ANSI_RESET);
-                            }
-                            break;
-                        case "drop":
-                            for (Item item : player.getInventory().getItems()) {
-                                if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
-                                    player.drop(item);
-                                    break;
-                                }
-                            }
-                        case "buy":
-                            if (currentRoom instanceof Shop) {
-                                for (Item item : currentRoom.getInventory().getItems()) {
-                                    if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
-                                        ((Shop) currentRoom).sellItemToPlayer(player, item);
-                                        break;
-                                    }
-                                }
-                            }
-                            break;
-                        case "sell":
-                            if (currentRoom instanceof Shop) {
-                                for (Item item : player.getInventory().getItems()) {
-                                    if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
-                                        ((Shop) currentRoom).buyItemFromPlayer(player, item);
-                                        break;
-                                    }
-                                }
-                            }
-                            break;
-                    }
-
-                case 1:
-                    switch (action) {
-                        case "fight":
-                            if (!currentRoom.getChallenge().isCleared() && userInputList.get(0).equals("fight")) {
-                                if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Combat && !currentRoom.getChallenge().isCleared()) {
-                                    getUserInput("\nPrepare for COMBAT... press enter to continue");
-//                                    combat(player, new Enemy("Zombie"));
-                                } else {
-                                    System.out.println("There is no Monster in the room");
-                                    break;
-                                }
-                            } else {
-                                System.out.println("There is no Monster in the room");
-                                break;
-                            }
-                            break;
-                        case "spin":
-                            if (currentRoom.getName().equals("Tomb")) {
-                                getUserInput("\nLets get money... press enter to continue");
-                                playSlot(player);
-                                break;
-                            }
-                        case "quit":
-                            Game.getInstance().stop();
-                            break;
-                    }
-                    break;
-            }
-        } else {
-            //sout invalid input
-            System.out.println("invalid input");
-            Game.getInstance().showInstructions();
-        }
-    }
-
     static String playSlot(Player player){
         StringBuilder gambleString = new StringBuilder();
         Room currentRoom = player.getCurrentPosition();
@@ -189,7 +67,6 @@ public class Prompter {
         int [] currentSlot = Roulette.spin();
         gambleString.append("Last Spin : "+ Arrays.toString(currentSlot) + "\n");
         gambleString.append(Roulette.checkMatch(currentSlot,player));
-//        advanceGame(player);
         return gambleString.toString();
     }
 
@@ -198,10 +75,8 @@ public class Prompter {
         Puzzle puzzle = (Puzzle) room.getChallenge();
         String triesLeft = "Here is your puzzle....Remember you only have " + (3 - puzzle.getAttempts()) + " tries!";
         System.out.println(triesLeft);
-//        puzzle.attemptPuzzle(getUserInput(puzzle.getQuestion()));
         puzzle.attemptPuzzle(userInput);
         if (puzzle.getAttempts() < 3 && !puzzle.isCleared())
-//            solvePuzzle(room, userInput);
             UserInterface.attemptPuzzle(room);
         else if (puzzle.isCleared()) {
             String rightAnswer = "Right answer! You can now move to the available rooms: " + room.getConnectedRooms().toString();
@@ -217,62 +92,9 @@ public class Prompter {
                 );
             }
         } else {
-            System.out.println(Parser.RED + "Wrong Answer!! You have had your chances...You failed...Game Over!!!" + Parser.ANSI_RESET);
             Game.getInstance().stop();
         }
         return puzzleString.toString();
-    }
-
-    public static void combat(Role player, Role enemy, String combatChoice) {
-        StringBuilder combatText = new StringBuilder();
-        var cleared = player.getCurrentPosition().getChallenge().isCleared();
-        if (!cleared) {
-//            Combat.combat(player, enemy);
-            while (player.getHealth() > 0 && enemy.getHealth() > 0) {
-                //creat temporary list to check for fight synonyms while in combat
-                List<String> fightTemp = new ArrayList<>();
-                List<String> runTemp = new ArrayList<>();
-                fightTemp.addAll(Parser.FIGHT_LIST);
-                runTemp.addAll(Parser.RUN_LIST);
-
-                String msg = "what would you like to do, \"fight\" or \"run\"?";
-//                String combatChoice = Prompter.getUserInput(msg).toLowerCase();
-
-                //checks if combat choice is synonym for fight or run
-                if (fightTemp.contains(combatChoice)) {
-                    combatChoice = "fight";
-                } else if (runTemp.contains(combatChoice)) {
-                    combatChoice = "run";
-                } else {
-                    combatChoice = combatChoice;
-                }
-                if (combatChoice.equals("fight")) {
-                    Combat.combat(player, enemy);
-                } else if (combatChoice.equals("run")) {
-                    player.setCurrentPosition(player.getCurrentPosition().getConnectedRooms().get(0));
-                    System.out.println("That is a weak move. But you have escaped death for now.");
-                    player.decreaseHealth(15);
-                    System.out.println("Since you escaped, you took a damage of 15 points on your health.");
-                    break;
-//                  Combat.enemyAttack(player,enemy);
-                }
-            }
-            if (enemy.getHealth() <= 0 || player.getHealth() <= 0) {
-                Room currentPosition = player.getCurrentPosition();
-                if (player.getHealth() <= 0) {
-//                    Prompter.getUserInput("You are dead. Press Enter to continue.");
-                    Frame frame = new JFrame();
-                }
-                currentPosition.getChallenge().setCleared(true);
-                if (enemy.getHealth() <= 0) {
-                    if (currentPosition.isExit()) {
-                        Frame frame = new JFrame();
-                    }
-                }
-            }
-        } else {
-            System.out.println("Room has no Enemy");
-        }
     }
 
     public static String displayCurrentScene(Player player) {
@@ -285,7 +107,6 @@ public class Prompter {
             itemClueText = "buy or sell:";
         }
         String numItemsString = numItemsInRoom > 0 ? numItemsInRoom + " item(s) in here which you can " + itemClueText : "";
-//        roomString.append(numItemsString + "\n");
 
         String roomIn = "You are in the " + currentRoom + ". " + currentRoom.getDescription() + "\n";
         System.out.println(roomIn);
@@ -302,7 +123,7 @@ public class Prompter {
                 System.out.println(ifCombat);
                 roomString.append(ifCombat);
             } else if (currRoomChallenge instanceof Combat && currentRoom.getName().equals("Grave-Yard")) {
-                String ifGrave = "The ghost goes underground. A posed corps digs up from underground and fixes its lifeless, pitiless gaze upon you. It's time to fight.";
+                String ifGrave = "The ghost goes underground. A tomb robber is digging up a grave, he glances your direction menacingly. It's time to fight.";
                 System.out.println(ifGrave);
                 roomString.append(ifGrave);
             }else if (currentRoom.getName().equalsIgnoreCase("Tomb")){
@@ -310,7 +131,6 @@ public class Prompter {
                 roomString.append(gamble);
             }
         } else {
-
             String roomInventory = currentRoom.getInventory().toString();
             if (currentRoom instanceof Shop) {
                 roomInventory = ((Shop) currentRoom).toStringShopInventory() + "\nYou have $" + player.getAcctBalance();
@@ -330,7 +150,6 @@ public class Prompter {
         }
         String actions = "\nActions applicable: " + sceneContextmenu(currentRoom, player) + "  ";
         System.out.println(actions);
-        //roomString.append(actions);
 
         return roomString.toString();
     }
@@ -364,10 +183,5 @@ public class Prompter {
             actionApplicable.remove("go");
         }
         return actionApplicable;
-    }
-
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 }

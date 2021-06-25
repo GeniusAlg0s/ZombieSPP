@@ -1,9 +1,7 @@
 package com.zombiecastlerush.building;
 
 import com.zombiecastlerush.entity.Entity;
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.zombiecastlerush.util.Parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,18 +23,6 @@ public class Room extends Entity {
 
     public List<Room> getConnectedRooms() {
         return connectedRooms;
-    }
-
-    /**
-     * @return
-     */
-    @JsonGetter("connectedRooms")
-    public List<String> displayConnectedRooms() {
-        List<String> list = new ArrayList<>();
-        for (Room r : this.connectedRooms) {
-            list.add(r.getName());
-        }
-        return list;
     }
 
     public Challenge getChallenge() {

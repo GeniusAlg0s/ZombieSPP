@@ -2,7 +2,6 @@ package com.zombiecastlerush.entity;
 
 import com.zombiecastlerush.building.Challenge;
 import com.zombiecastlerush.building.Room;
-import com.zombiecastlerush.util.Parser;
 
 import java.util.List;
 
@@ -27,8 +26,6 @@ public class Player extends Role {
     }
 
     /**
-     * TODO: move to a room by room name/description
-     *
      * @param roomName
      */
     public String moveTo(String roomName) {
@@ -64,7 +61,6 @@ public class Player extends Role {
     }
 
     /**
-     * decide next valid movement with target room name
      *
      * @param roomName
      * @return Room reference if input room name is valid for my next movement

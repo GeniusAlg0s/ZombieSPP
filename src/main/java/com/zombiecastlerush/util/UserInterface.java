@@ -21,36 +21,34 @@ import java.util.List;
 public class UserInterface {
 
     private final static boolean shouldFill = true;
-    private final static boolean shouldWeightX = true;
     private final static boolean RIGHT_TO_LEFT = false;
-
     private static UserInterface userInterface;
     private static JFrame gameWindow;
-    private static Container container;
-    private static Font titleFont = new Font("Impact", Font.PLAIN, 70), normalFont = new Font("Monospace", Font.PLAIN, 14);
-    private static JTextPane titlePane, textPane;
+    private static final Font titleFont = new Font("Impact", Font.PLAIN, 70);
+    private static final Font normalFont = new Font("Monospace", Font.PLAIN, 16);
+    private static JTextPane titlePane;
     private static JTextField nameField;
     private static JButton newGameButton;
     private static JPanel mainButtonPanel, buttonPanel;
     private static JTextArea eventTextArea, playerTextArea, descTextArea;
     private static Player player = Game.player;
-    private static Castle castle = Game.castle;
-    private static Game game = Game.getInstance();
+    private static final Castle castle = Game.castle;
+    private static final Game game = Game.getInstance();
     private static GridBagConstraints c;
-    private static Combat combat = new Combat("fight me bro");
+    private static final Combat combat = new Combat("fight me bro");
     private static Role enemy;
-    private static MusicPlayer maestro = Game.maestro;
+    private static final MusicPlayer maestro = Game.maestro;
 
     // Action Handlers
-    NewGameHandler ngHandler = new NewGameHandler();
-    PlayerActionHandler paHandler = new PlayerActionHandler();
-    GoActionHandler goHandler = new GoActionHandler();
-    PickUpActionHandler puHandler = new PickUpActionHandler();
-    DropActionHandler dropHandler = new DropActionHandler();
-    BuyActionHandler buyHandler = new BuyActionHandler();
-    SellActionHandler sellHandler = new SellActionHandler();
-    OtherActionHandler otherHandler = new OtherActionHandler();
-    SoundActionHandler soundHandler = new SoundActionHandler();
+    private final NewGameHandler ngHandler = new NewGameHandler();
+    private final PlayerActionHandler paHandler = new PlayerActionHandler();
+    private final GoActionHandler goHandler = new GoActionHandler();
+    private final PickUpActionHandler puHandler = new PickUpActionHandler();
+    private final DropActionHandler dropHandler = new DropActionHandler();
+    private final BuyActionHandler buyHandler = new BuyActionHandler();
+    private final SellActionHandler sellHandler = new SellActionHandler();
+    private final OtherActionHandler otherHandler = new OtherActionHandler();
+    private final SoundActionHandler soundHandler = new SoundActionHandler();
 
     private UserInterface() {
     }
@@ -78,7 +76,7 @@ public class UserInterface {
             //natural height, maximum width
             c.fill = GridBagConstraints.HORIZONTAL;
         }
-        container = gameWindow.getContentPane();
+        Container container = gameWindow.getContentPane();
 
         // NEW GAME SCREEN
 
@@ -219,7 +217,7 @@ public class UserInterface {
         soundButtonPanel.add(volumeDownButton);
 
         //Game title
-        textPane = new JTextPane();
+        JTextPane textPane = new JTextPane();
         textPane.setText("ZOMBIE CASTLE RUSH");
         textPane.setBackground(Color.black);
         textPane.setForeground(Color.green);
@@ -308,8 +306,6 @@ public class UserInterface {
         pane.add(mainButtonPanel, c);
         // add main buttons to main button panel
         mainButtons();
-        pane.revalidate();
-        pane.repaint();
     }
 
     // method called by new game handler to create and sho main game GUI
@@ -512,13 +508,14 @@ public class UserInterface {
         buttonPanel.setBackground(Color.blue);
         buttonPanel.setPreferredSize(new Dimension(400, 200));
         c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.PAGE_END;
+        c.gridx = 0;
+        c.gridy = 6;
         c.ipady = 0;
         c.weighty = 1.0;
         c.insets = new Insets(10, 10, 10, 10);
-        c.gridx = 0;
-        c.gridwidth = 3;
-        c.gridheight = 2;
-        c.gridy = 3;
+        c.gridwidth = 4;
+        c.gridheight = 1;
 
         return buttonPanel;
     }
@@ -575,6 +572,7 @@ public class UserInterface {
     // method to update player info
     public static void updatePlayerInfo() {
         String playerInfo = "PLAYER INFORMATION :\nPlayer Name: " + player.getName()
+                + "\nCurrent Location: " + player.getCurrentPosition()
                 + "\nHit Points: " + player.getHealth()
                 + "\nCoins: " + player.getAcctBalance()
                 + "\nInventory: " + player.getInventory();
@@ -609,7 +607,7 @@ public class UserInterface {
                     if (valid) {
                         String playerName = nameField.getText();
                         player = new Player(playerName);
-                        player.setCurrentPosition(castle.getCastleRooms().get("Grave-Yard"));
+                        player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
 
                         createAndShowGUI();
                     }
@@ -635,6 +633,8 @@ public class UserInterface {
 
             // update description area with player movement and new scene, go to main buttons
             descTextArea.setText(player.moveTo(action) + "\n" + Prompter.displayCurrentScene(player));
+            updatePlayerInfo();
+            updateEventText(CoinGod.chance(player));
             goMain();
         }
     }
@@ -818,5 +818,4 @@ public class UserInterface {
             }
         }
     }
-
 }

@@ -17,7 +17,7 @@ public class Castle {
         Room combatHall = new Room("Combat-Hall", "Festooned with the arms and armor of warriors past, this room is better lit than the others. In the middle of the room, a single coffin has been left slightly open, its lid closed just enough to obscure the contents from view");
         //new room
         Room graveyard = new Room("Grave-Yard", "The stairs led to a grave, and there a old looking tomb with an opening. \nThere is a weird looking ghost, among the tomb stones. it blocks the stair case....");
-        Room tomb = new Room("Tomb","Take a chance win some mulla.. \nCost $2 to play...don't stay to long the house wins eventually");
+        Room tomb = new Room("Tomb","Take a chance win some mullah.. \nIt costs 2 coins to play...don't stay to long the house wins eventually");
         Shop shop = new Shop("Shop", "A strangely silent shopkeeper seems to preside over a collection of wares, oblivious or indifferent to your presence.");
 
         //add connected rooms to room
