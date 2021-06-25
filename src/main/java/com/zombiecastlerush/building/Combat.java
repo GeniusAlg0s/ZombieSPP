@@ -1,7 +1,6 @@
 package com.zombiecastlerush.building;
 
 import com.zombiecastlerush.entity.Role;
-import com.zombiecastlerush.util.UserInterface;
 
 import java.util.List;
 import java.util.Random;
@@ -16,8 +15,6 @@ public class Combat extends Challenge {
 
     public static String combat(Role player, Role enemy) {
         StringBuilder combatText = new StringBuilder();
-        UserInterface ui = UserInterface.getInstance();
-
         List<Item> items = player.getInventory().getItems();
         playerDamageToEnemy = new Random().nextInt(50) + 1;
         enemyDamageToPlayer = new Random().nextInt(50) + 1;
@@ -41,7 +38,6 @@ public class Combat extends Challenge {
         if (current.getName().equals("Grave-Yard")) {
             playerDamageToEnemy += 30;
         }
-
         if (player.getHealth() > 0 && enemy.getHealth() > 0) {
             combatText.append(playerAttack(player, enemy));
         }

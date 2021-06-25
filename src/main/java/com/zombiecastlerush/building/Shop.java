@@ -1,9 +1,7 @@
 package com.zombiecastlerush.building;
 
 import com.zombiecastlerush.entity.Player;
-import com.zombiecastlerush.util.Parser;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class Shop extends Room {
@@ -13,7 +11,6 @@ public class Shop extends Room {
     }
 
     public String sellItemToPlayer(Player player, Item item) {
-        //Do we allow buying if player already has the item??--No, prompter handles
         StringBuilder buyString = new StringBuilder();
         if (player.getAcctBalance() >= item.getPrice()) {
             player.getInventory().transferItem(this.getInventory(), player.getInventory(), item);
