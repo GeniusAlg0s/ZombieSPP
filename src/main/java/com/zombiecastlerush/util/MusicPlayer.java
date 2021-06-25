@@ -21,7 +21,7 @@ public class MusicPlayer extends JFrame {
 
     public static MusicPlayer getInstance(){
         if(MusicPlayer.Mplayer== null){
-            MusicPlayer.Mplayer= new MusicPlayer("src/main/java/com/zombiecastlerush/data/longSound.wav");
+            MusicPlayer.Mplayer= new MusicPlayer("resources/longSound.wav");
         }
         return MusicPlayer.Mplayer;
     }
